@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot password</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forgot_pass-style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='css/images/LOGO_icon.ico') }}" type="image/x-icon">
+</head>
+<body>
+
+    <header>
+        <a href="#" class="Logo">
+            <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+        </a>
+        <div class="header-text">Searching For Kiddie Essentials? There’s nothing like KidMart!</div>
+        <form action="{{ url_for('gotologin') }}" method="GET">
+            <button type="submit" name="gotologin" id="gotologin" title="Log In">Back to Log In</button>
+        </form>
+    </header>
+
+    <section>
+        <div class="otp-form-container">
+            <h2>Forgot password</h2>
+          
+            <label for="email">Email</label>
+            <div class="email-container">
+                <input type="email" id="email" name="email">
+                <button type="button" class="send-otp-button" id="send-otp-btn">Send OTP</button>
+            </div>
+            
+            <label for="otp">OTP</label>
+            <input type="text" id="otp" name="otp" maxlength="6">
+
+            <label for="newpass">New Password</label>
+            <div class="newpass-container">
+                <input type="password" id="newpass" name="newpass">
+            </div>
+
+            <label for="confpass">Confirm New Password</label>
+            <div class="confpass-container">
+                <input type="password" id="confpass" name="confpass">
+            </div>
+            
+            <button type="submit" id="reset-password-btn">Reset Password</button>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("send-otp-btn").addEventListener("click", function() {
+            const email = document.getElementById("email").value;
+        
+            fetch('/forgot-password/send-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                } else if (data.error) {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            });
+        });
+
+
+        document.getElementById("reset-password-btn").addEventListener("click", function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const otp = document.getElementById("otp").value;
+            const newPassword = document.getElementById("newpass").value;
+            const confirmPassword = document.getElementById("confpass").value;
+
+            fetch('/forgot-password/verify-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email, otp: otp, new_password: newPassword, confirm_password: confirmPassword })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    window.location.href = '/';
+                } else if (data.error) {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            });
+        });
+    </script>
+</body>
+</html>

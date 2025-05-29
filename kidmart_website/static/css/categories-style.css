@@ -1,0 +1,309 @@
+@font-face {
+    font-family: Roboto;
+    src: url(fonts/Roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: LeagueSpartan;
+    src: url(fonts/League/LeagueSpartan-Regular.ttf);
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: PoppinsMed;
+    src: url(fonts/Poppins/Poppins-Medium.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+header{
+    font-family: Roboto, sans-serif;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 5%;
+}
+.Logo img{
+    max-width: 125px;
+    height: auto;
+}
+.navmenu{
+    display: flex;
+}
+.navmenu a{
+    color: #2C2C2C;
+    font-size: 12px;
+    font-family: Roboto, sans-serif;
+    text-transform: capitalize;
+    padding: 10px 20px;
+    font-weight: 600;
+    transform: all .42s ease;
+}
+.navmenu a:hover{
+    color: #49ADFF;
+}
+.navicons{
+    display: flex;
+    align-items: center;
+}
+.navicons i{
+    margin-right: 20px;
+    color: #2C2C2C;
+    font-size: 25px;
+    font-weight: 400;
+    transform: all .42s ease;
+}
+.navicons i:hover{
+    transform: scale(1.1);
+    color: #49ADFF;
+}
+.navicons button {
+    outline: none;
+    border: none;
+    background: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.dropdown-menu {
+    position: absolute;
+    background-color: #f9f9f9;
+    font-family: Poppins;
+    font-size: 11px;
+    border: 1px #c3c3c3;
+    top: 70px;
+    right: 150px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-menu a {
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    color: #333;
+    width: 100%;
+}
+
+.dropdown-menu a:hover {
+    background-color: #e0e0e0;
+}
+
+#menu-icon{
+    font-size: 30px;
+    color: #2C2C2C;
+    z-index: 10001;
+    cursor: pointer;
+}
+section{
+    padding: 5% 10%;
+}
+.center-text{
+    color: #333;
+    font-family: Poppins;
+    font-size: 12px;
+    text-transform: capitalize;
+    text-align: left;
+    margin-bottom: 30px;
+    padding-left: 10%;
+    padding-top: 7%;
+}
+.center-text h2 a,
+.center-text span{
+    font-family: Poppins;
+    color: #333;
+}
+.products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    justify-content: center;
+}
+
+.row {
+    padding: 5px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.row img {
+    align-self: center;
+    width: 210px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    transition: all .40s;
+}
+
+.row img:hover {
+    cursor: pointer;
+}
+
+.rating i {
+    color: #ff8c00;
+    font-size: 16px;
+}
+
+.price h4 {
+    color: #333;
+    font-family: PoppinsMed;
+    font-size: 15px;
+    text-transform: capitalize;
+}
+
+.price p {
+    color: #5a5a5a;
+    font-size: 15px;
+    font-family: Roboto;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.row:hover {
+    filter: brightness(90%);
+    background-color: #fefefe;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .products {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .products {
+        grid-template-columns: 1fr;
+    }
+}
+
+.contacts{
+    background-color: #E3EBFF;
+}
+.contact-info{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, auto));
+    gap: 3rem;
+}
+.first-info img{
+    width: 140px;
+    height: auto;
+}
+.contact-info h2{
+    color: #3179FF;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.contact-info h4{
+    color: #3179FF;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+.contact-info p{
+    color: #001F58;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: capitalize;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all .42s;
+}
+.contact-info p:hover{
+    color: #49ADFF;
+}
+.social-icon i{
+    color: #3179FF;
+    margin-right: 10px;
+    font-size: 20px;
+    transition: all .42s;
+}
+.social-icon i:hover{
+    transform: scale(1.5);
+}
+.end-text{
+    background-color: #edfff1;
+    text-align: center;
+    padding: 20px;
+}
+.end-text p{
+    color: #111;
+    text-transform: capitalize;
+    font-family: "Roboto", sans-serif;
+}
+
+@media(max-width:890px){
+    header{
+        padding: 20px 3%;
+        transition: .4s;
+    }
+}
+
+@media(max-width:630px){
+    .main-text h1{
+        font-size: 40px;
+        transition: .4s;
+    }
+    .main-text p{
+        font-size: 14px;
+        transition: .4s;
+    }
+    .main-btn{
+        padding: 10px 20px;
+        transition: .4s;
+    }
+}
+
+@media(max-width:630px){
+    .navmenu{
+        position: absolute;
+        top: 100%;
+        right: -100%;
+        width: 300px;
+        height: 130vh;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 120px 30px;
+        transition: all .42s;
+    }
+    .navmenu a{
+        display: block;
+        margin: 15px 0;
+    }
+    .navmenu.open{
+        right: 0;
+    }
+}

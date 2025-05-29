@@ -1,0 +1,447 @@
+@font-face {
+    font-family: Roboto;
+    src: url(fonts/Roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: LeagueSpartan;
+    src: url(fonts/League/LeagueSpartan-Regular.ttf);
+}
+
+@font-face {
+    font-family: PoppinsBold;
+    src: url(fonts/Poppins/Poppins-SemiBold.ttf);
+}
+
+@font-face {
+    font-family: PoppinsItalic;
+    src: url(fonts/Poppins/Poppins-Italic.ttf);
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: PoppinsMed;
+    src: url(fonts/Poppins/Poppins-Medium.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+header{
+    font-family: "Roboto", sans-serif;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    display: flex;
+    position: absolute;
+    font-family: PoppinsItalic;
+    font-size: 27px;
+    color: #2c2c2c;
+    padding-left: 150px;
+}
+.Logo img{
+    max-width: 125px;
+    height: auto;
+}
+.back img {
+    margin: 0 10px;
+    width: auto;
+    height: 28px;
+    aspect-ratio: 1 / 1;
+}
+body {
+    background: #fdfdfd;
+}
+section{                
+    padding: 5% 10%;
+}
+
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    gap: 20px;
+}
+.left-column {
+    flex: 1;
+    padding: 20px;
+}
+.right-column {
+    flex: 1;
+    padding: 20px;
+}
+
+.address{
+    margin: auto;
+    margin-top: 25px;
+}
+.address h2{
+    align-self: flex-start;
+    font-family: Poppins;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.single-container.address {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.address_label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+}
+.address_card {
+    width: 85%;
+    background: #fdfdfd;
+    border: 1px solid #ccc;
+    padding: 15px 20px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.address_card:hover {
+    background-color: #f4f4f4;
+}
+.address_card .name_num {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.address_card .name {
+    color: #2C2C2C;
+    font-size: 14px;
+    font-family: PoppinsMed;
+}
+.address_card .num {
+    font-family: Poppins;
+    font-size: 14px;
+    color: #343434;
+    margin-right: 12px;
+}
+.address_card .addrezz {
+    font-family: Poppins;
+    color: #525252;
+    font-size: 12px;
+    margin-top: 5px;
+}
+.address_label input[type="radio"] {
+    display: none;
+}
+.address_label input[type="radio"]:checked + .address_card {
+    background-color: #d3d3d3;
+}
+
+.shipment {
+    margin: 0 auto;
+    margin-bottom: 0;
+    text-align: left;
+}
+.shipment h2 {
+    font-family: Poppins;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.shipping-options {
+    width: 85%;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fdfdfd;
+}
+.shipping-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    padding-left: 30px;
+    margin-bottom: 0px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.shipping-option:hover {
+    background-color: #f0f0f0;
+}
+.shipping-option .delivery {
+    border-radius: 6px 6px 0 0;
+}
+.shipping-option .pickup {
+    border-radius: 0 0 6px 6px;
+}
+.shipping-option input[type="radio"] {
+    width: auto;
+    margin-right: 30px;
+    transform: scale(1.5);
+}
+.shipping-option span {
+    font-family: Poppins;
+    color: #333;
+    font-size: 16px;
+}
+.shipping-option input[type="radio"]:checked + span {
+    background-color: #d3d3d3;
+}
+.shipping-option.checked {
+    background-color: #d3d3d3;
+}
+
+.payment-method{
+    margin: 0 auto;
+}
+.payment-method h2{
+    font-family: Poppins;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+select[name="payment"]{
+    margin-top: 10px;
+    font-family: Poppins;
+    width: 85%;
+    margin-left: 40px;
+    padding: 13px 25px;
+    font-size: 16px;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+option {
+    font-family: Poppins;
+    font-size: 16px;
+    color: #333;
+}
+.prod_in_cart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.prod_image {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+}
+
+.prod_details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    flex: 1;
+}
+
+.prod_name {
+    margin: 0;
+    font-size: 15px;
+    font-family: PoppinsMed;
+    color: #2c2c2c;
+}
+.variation {
+    margin-top: 5px;
+    font-size: 12px;
+    font-family: Poppins;
+    color: #2c2c2c;
+}
+
+.prod_price_quantity {
+    text-align: right;
+    margin-left: 20px;
+}
+
+.prod_price {
+    font-size: 14px;
+    font-family: PoppinsMed;
+    color: #2c2c2c;
+}
+.prod_quantity {
+    margin-top: 5px;
+    font-size: 14px;
+    font-family: PoppinsMed;
+    color: #2c2c2c;
+    letter-spacing: 2.5px;
+}
+
+.discount {
+    margin-top: 20px;
+}
+input[name="voucher"] {
+    font-family: Poppins;
+    width: 75%;
+    padding: 14px;
+    padding-left: 25px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.voucher_btn {
+    display: inline-block;
+    padding: 14px 27px;
+    background-color: #2b92ff;
+    color: #f2f2f2;
+    font-family: PoppinsMed;
+    font-size: 13px;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-left: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.voucher_btn:hover {
+    background-color: #4aa1fd;
+}
+
+.single-container {
+    padding: 10px 0;
+    margin-bottom: 15px;
+}
+
+.merch_subtotal, .shippingfee, .grandtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.merch, .sf {
+    font-size: 15px;
+    font-family: PoppinsMed;
+    color: #333;
+}
+.merch_price, .sf_price {
+    font-size: 15px;
+    font-family: PoppinsMed;
+    color: #333;
+    text-align: right;
+}
+
+.lahatan{
+    font-size: 18px;
+    font-family: PoppinsBold;
+    color: #2c2c2c;
+}
+.lahatan_price {
+    font-size: 18px;
+    font-family: PoppinsBold;
+    color: #2c2c2c;
+    text-align: right;
+}
+
+.placeorder_btn {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #2b92ff;
+    color: #f2f2f2;
+    text-decoration: none;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    font-family: PoppinsMed;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.placeorder_btn:hover {
+    background-color: #4aa1fd;
+}
+
+
+.footer{
+    background-color: #E3EBFF;
+}
+.footer-info{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, auto));
+    gap: 3rem;
+}
+.first-info img{
+    width: 140px;
+    height: auto;
+}
+.footer-info h2{
+    color: #3179FF;
+    font-size: 14px;
+    font-family: Roboto;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.footer-info h4{
+    color: #3179FF;
+    font-size: 14px;
+    font-family: Roboto;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+.footer-info p{
+    color: #001F58;
+    font-family: Poppins;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: capitalize;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all .42s;
+}
+.footer-info p:hover{
+    color: #49ADFF;
+}
+.social-icon i{
+    color: #3179FF;
+    margin-right: 10px;
+    font-size: 20px;
+    transition: all .42s;
+}
+.social-icon i:hover{
+    transform: scale(1.5);
+}
+.end-text{
+    background-color: #edfff1;
+    text-align: center;
+    padding: 20px;
+}
+.end-text p{
+    color: #111;
+    text-transform: capitalize;
+    font-family: Roboto;
+}
+
+@media(max-width:890px){
+    header{
+        padding: 20px 3%;
+        transition: .4s;
+    }
+}

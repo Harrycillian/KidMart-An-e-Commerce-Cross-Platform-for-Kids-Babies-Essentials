@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | KIDMART</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_home-style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='css/images/LOGO_icon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="#" class="Logo">
+            <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+        </a>
+        <div class="header-text">Welcome, Admin!</div>
+        <div class="navicons">
+            <!-- <a href="#" class="msg_icon" title="Messages">
+                <img src="{{ url_for('static', filename='css/images/msg_icon.png') }}">
+            </a>
+            <a href="#" class="notif_icon" title="Notifications">
+                <img src="{{ url_for('static', filename='css/images/notif_icon.png') }}">
+            </a> -->
+            <a href="#" class="person_icon" id="person_icon">
+                <img src="{{ url_for('static', filename='css/images/person_icon.png') }}">
+            </a>
+        </div>
+        <div id="profileDetails" style="display: none;">
+            <a href="{{ url_for('gotologin') }}" class="logout_btn" onclick="return confirmLogout()">Log Out</a>
+        </div>
+    </header>
+
+    <section class="stats">
+        <div class="main-stats">
+            <div class="frame1">
+                <h1>{{ total_sellers }}</h1>
+                <p>Total Sellers</p>
+            </div>
+            <div class="frame2">
+                <h1>{{ total_buyers }}</h1>
+                <p>Total Buyers</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="salesrep">
+        <div class="salesreport">
+            <p class="srep">Sales Report</p>
+            <div class="sales_radio">
+                <p class="filterby">Filter by:</p>
+                <div class="sales_radio-group">
+                    <label class="orderslbl"><input type="radio" name="filterby" value="Orders" checked>&nbsp; Orders</label>
+                    <label class="productslbl"><input type="radio" name="filterby" value="Products">&nbsp; Products</label>
+                </div>
+            </div>
+            <div class="filterdate">
+                <p class="datef">Date Range:</p>
+                <div class="date_inputs">
+                    <input type="date" class="date_from" required>
+                    <p class="line">-</p>
+                    <input type="date" class="date_to" required>
+                    <button type="button" name="ok_btn" class="ok_btn">OK</button>
+                </div>
+                
+                <p class="admperc">Admin Commission: &nbsp; 5%<br>Average Commission per Order: &nbsp; ₱{{ avg_admin_com }}</p>
+                
+            </div>     
+            <div class="sales_table">
+                <table>
+                    <thead>
+                        <tr class="s">
+                            <th>Transaction Date</th>
+                            <th>Order ID</th>
+                            <th>Products</th>
+                            <th>Seller</th>
+                            <th>Customer</th>
+                            <th>Subtotal</th>
+                            <th>Seller Profit</th>
+                            <th class="admh">Admin Commission</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sales_body">
+                        {% for order in order_summary %}
+                        <tr>
+                            <td>{{ order[0] }}</td>
+                            <td>{{ order[1] }}</td>
+                            <td>{{ order[2] }}</td>
+                            <td>{{ order[3] }}</td>
+                            <td>{{ order[4] }}</td>
+                            <td>₱{{ order[5] }}</td>
+                            <td>₱{{ order[6] }}</td>
+                            <td class="adm">₱{{ order[7] }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr style="border-top: 2px solid #444;">
+                            <td colspan="1" style="border: none; font-weight: bold; background-color:#f2f2f2; margin-top:7px;">Total:</td>
+                            <td style="border: none; background-color:#f2f2f2; margin-top:7px;">{{ total_orders }}</td>
+                            <td colspan="3" style="border: none; background-color:#f2f2f2; padding-top:10px;"></td>
+                            <td style="border: none; background-color:#f2f2f2; margin-top:7px;">₱{{ total_price }}</td>
+                            <td style="border: none; background-color:#f2f2f2; margin-top:7px;">₱{{ total_profit }}</td>
+                            <td style="border: none; background-color:#f2f2f2; margin-top:7px;">₱{{ total_commission }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="printlol">
+                <button class="printsales" onclick="printReport()">Print</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="user-crud">
+        <div class="main-content">
+            <p class="userm">User Management</p>
+            <div class="radio-group">
+                <label><input type="radio" name="filter" value="All" checked onchange="filterUsers()"> All Users</label>
+                <label><input type="radio" name="filter" value="Sellers" onchange="filterUsers()"> Seller</label>
+                <label><input type="radio" name="filter" value="Buyers" onchange="filterUsers()"> Buyers</label>
+            </div>
+            <input type="search" name="search_user" id="search_user" placeholder="Search for users..." autocomplete="off">
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Country</th>
+                            <th>Number</th>
+                            <th>Position</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="users_tb">
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user[0] }}</td>
+                            <td>{{ user[1] }}</td>
+                            <td>{{ user[2] }}</td>
+                            <td>{{ user[3] }}</td>
+                            <td>{{ user[4] }}</td>
+                            <td>{{ user[5] }}</td>
+                            <td>{{ user[6] }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a class="edit_btn" href="#">
+                                        <img src="{{ url_for('static', filename='css/images/edit_btn.png') }}" alt="View" title="View User">
+                                    </a>
+                                    <a class="delete_btn" href="#" data-id="{{ user[0] }}">
+                                        <img src="{{ url_for('static', filename='css/images/delete_btn.png') }}" alt="Archive" title="Archive User">
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>            
+        </div>
+    </section>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>User Information</h2>
+            <img src="{{ url_for('static', filename='css/images/pfp.jpg') }}" class="pfp">
+            <p class="vname"><!-- name --></p>
+            <p class="vemail"><!-- email --></p>
+            <p class="vgender"><!-- gender --></p>
+            <p class="vcountry"><!-- country --></p>
+            <p class="vnum"><!-- number --></p>
+            <p class="vpos"><!-- position --></p>
+        </div>
+    </div>
+
+    <div class="deleteModal" id="deleteModal" style="display: none;">
+        <div class="delmodcont">
+            <span class="closedelmod">&times;</span>
+            <p class="delwho"></p>
+            <p class="rizz">Reason for Suspension/Ban:</p>
+            <textarea name="delreason" class="delreason" rows="5" required></textarea>
+            <button type="submit" name="delbutton" class="delbutton">Confirm</button>
+        </div>
+    </div>
+
+    <section class="seller-auth">
+        <div class="seller-auth_content">
+            <h1>Seller Authorization</h1>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Birthdate</th>
+                            <th>Number</th>
+                            <th>Income</th>
+                            <th>Valid ID</th>
+                            <th>Permit</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sellerapps" id="sellerTableBody">
+                        {% if sellers|length == 0 %}
+                            <tr>
+                                <td colspan="10" class="empty_sellers">No applications yet.</td>
+                            </tr>
+                        {% else %}
+                            {% for seller in sellers %}
+                                <tr>
+                                    <td>{{ seller[0] }}</td>
+                                    <td>{{ seller[1] }}</td>
+                                    <td>{{ seller[2] }}</td>
+                                    <td>{{ seller[3] }}</td>
+                                    <td>(+63) {{ seller[4] }}</td>
+                                    <td>{{ seller[5] }}</td>
+                                    <td>
+                                        <a href="{{ url_for('get_valid_id', seller_id=seller[0]) }}">{{ seller[6] }}</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('get_permit', seller_id=seller[0]) }}">Business Permit</a>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a class="approve_btn" onclick="approveUser('{{ seller[2] }}', event)">
+                                                <img src="{{ url_for('static', filename='css/images/approve_btn.png') }}" alt="Approve" title="Approve User">
+                                            </a>                                        
+                                            <a class="disapprove_btn" href="#" data-email="{{ seller[2] }}">
+                                                <img src="{{ url_for('static', filename='css/images/disapprove_btn.png') }}" alt="Disapprove" title="Disapprove User">
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>                
+
+                <div id="imageModal" class="modal2">
+                    <span class="close2" onclick="closeModal()">&times;</span>
+                    <img class="modal-content2" id="modalImage" src="">
+                    <div id="caption"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="disapproveModal" id="disapproveModal" style="display: none;">
+        <div class="dismodcont">
+            <span class="closedismod">&times;</span>
+            <p class="diswho"></p>
+            <p class="rizzz">Reason for Disapproval:</p>
+            <select name="disreason" class="disreason" required>
+                <option value="" disabled selected>Select a reason</option>
+                <option value="Incomplete application details">Incomplete application details</option>
+                <option value="Failed verification process">Failed verification process</option>
+                <option value="Suspicious or fraudulent activity">Suspicious or fraudulent activity</option>
+                <option value="Violation of company policies">Violation of company policies</option>
+                <option value="Ineligible to become a seller">Ineligible to become a seller</option>
+            </select>
+            <button type="button" name="disbutton" class="disbutton">Confirm</button>
+        </div>
+    </div>
+
+    <section class="seller-auth">
+        <div class="seller-auth_content">
+            <h1>Courier Authorization</h1>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Birthdate</th>
+                            <th>Number</th>
+                            <th>Driver's License</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="courierapps" id="courierTableBody">
+                        {% if couriers|length == 0 %}
+                            <tr>
+                                <td colspan="10" class="empty_couriers">No applications yet.</td>
+                            </tr>
+                        {% else %}
+                            {% for courier in couriers %}
+                                <tr>
+                                    <td>{{ courier[0] }}</td>
+                                    <td>{{ courier[1] }}</td>
+                                    <td>{{ courier[2] }}</td>
+                                    <td>{{ courier[3] }}</td>
+                                    <td>(+63) {{ courier[4] }}</td>
+                                    <td>
+                                        <a href="{{ url_for('get_driverlic', courier_id=courier[0]) }}">View Image</a>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a class="approve_btn" onclick="approveCourier('{{ courier[2] }}', event)">
+                                                <img src="{{ url_for('static', filename='css/images/approve_btn.png') }}" alt="Approve" title="Approve User">
+                                            </a>                                        
+                                            <a class="disapprove_btn2" href="#" data-email="{{ courier[2] }}">
+                                                <img src="{{ url_for('static', filename='css/images/disapprove_btn.png') }}" alt="Disapprove" title="Disapprove User">
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>                
+
+                <div id="imageModal2" class="modal3">
+                    <span class="close3" onclick="closeModal3()">&times;</span>
+                    <img class="modal-content3" id="modalImage3" src="">
+                    <div id="caption3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="disapproveModal2" id="disapproveModal2" style="display: none;">
+        <div class="dismodcont2">
+            <span class="closedismod2">&times;</span>
+            <p class="diswho2"></p>
+            <p class="rizzz2">Reason for Disapproval:</p>
+            <select name="disreason2" class="disreason2" required>
+                <option value="" disabled selected>Select a reason</option>
+                <option value="Incomplete application details">Incomplete application details</option>
+                <option value="Failed verification process">Failed verification process</option>
+                <option value="Suspicious or fraudulent activity">Suspicious or fraudulent activity</option>
+                <option value="Violation of company policies">Violation of company policies</option>
+                <option value="Ineligible to become a courier">Ineligible to become a courier</option>
+            </select>
+            <button type="button" name="disbutton2" class="disbutton2">Confirm</button>
+        </div>
+    </div>
+
+    <script>
+        function confirmLogout() {
+            return confirm("Are you sure you want to log out?");
+        }
+        
+        document.querySelector('.person_icon').addEventListener('click', function(event) {
+            event.preventDefault();
+            const profileDetails = document.getElementById('profileDetails');
+            profileDetails.style.display = profileDetails.style.display === 'block' ? 'none' : 'block';
+        });
+
+        
+        document.querySelector('.ok_btn').addEventListener('click', () => {
+            const dateFrom = document.querySelector('.date_from').value;
+            const dateTo = document.querySelector('.date_to').value;
+
+            if (dateFrom && dateTo) {
+                fetch(`/filter_sales?date_from=${dateFrom}&date_to=${dateTo}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const tbody = document.querySelector('.sales_body');
+                        tbody.innerHTML = '';
+
+                        if (data.order_summary.length === 0) {
+                            const emptyRow = document.createElement('tr');
+                            emptyRow.innerHTML = `
+                                <td class="empty_sales" colspan="8">No orders from date range selected.</td>
+                            `;
+                            tbody.appendChild(emptyRow);
+
+                            tbody.insertAdjacentHTML('beforeend', `
+                                <tr style="border-top: 2px solid #444;">
+                                    <td colspan="1" style="border: none; font-weight: bold; background-color:#f2f2f2; margin-top:7px;">Total:</td>
+                                    <td style="border: none; background-color:#f2f2f2; margin-top:7px;">0</td>
+                                    <td colspan="3" style="border: none; background-color:#f2f2f2; padding-top:10px;"></td>
+                                    <td style="border: none; background-color:#f2f2f2; margin-top:7px;">₱0.00</td>
+                                    <td style="border: none; background-color:#f2f2f2; margin-top:7px;">₱0.00</td>
+                                    <td style="border: none; background-color:#f2f2f2; margin-top:7px;">₱0.00</td>
+                                </tr>
+                            `);
+                        } else {
+                            data.order_summary.forEach(order => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
+                                    <td>${order[0]}</td>
+                                    <td>${order[1]}</td>
+                                    <td>${order[2]}</td>
+                                    <td>${order[3]}</td>
+                                    <td>${order[4]}</td>
+                                    <td>₱${order[5]}</td>
+                                    <td>₱${order[6]}</td>
+                                    <td class="adm">₱${order[7]}</td>
+                                `;
+                                tbody.appendChild(row);
+                            });
+
+                            tbody.insertAdjacentHTML('beforeend', `
+                                <tr style="border-top: 2px solid #444;">
+                                    <td colspan="1" style="border: none; font-weight: bold; background-color:#f2f2f2; margin-top:7px;">Total:</td>
+                                    <td style="border: none; background-color:#f2f2f2; margin-top:7px;">${data.total_orders}</td>
+                                    <td colspan="3" style="border: none; background-color:#f2f2f2; padding-top:10px;"></td>
+                                    <td style="border: none; background-color:#f2f2f2; margin-top:7px;">₱${data.total_price}</td>
+                                    <td style="border: none; background-color:#f2f2f2; margin-top:7px;">₱${data.total_profit}</td>
+                                    <td style="border: none; background-color:#f2f2f2; margin-top:7px;">₱${data.total_commission}</td>
+                                </tr>
+                            `);
+                        }
+                    });
+            } else {
+                alert("Please select both dates for the date range.");
+            }
+        });
+
+
+        function filterUsers() {
+            const selectedFilter = document.querySelector('input[name="filter"]:checked').value;
+
+            fetch('/filter_users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ filter: selectedFilter }),
+            })
+            .then(response => response.json())
+            .then(users => {
+                const tableBody = document.querySelector('.users_tb');
+                tableBody.innerHTML = '';
+
+                if (users.length === 0) {
+                    const emptyRow = document.createElement('tr');
+                    emptyRow.innerHTML = '<td colspan="8" class="empty_sellers">No users yet.</td>';
+                    tableBody.appendChild(emptyRow);
+                } else {
+                    users.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${user[0]}</td>
+                            <td>${user[1]}</td>
+                            <td>${user[2]}</td>
+                            <td>${user[3]}</td>
+                            <td>${user[4]}</td>
+                            <td>${user[5]}</td>
+                            <td>${user[6]}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a class="edit_btn" href="#">
+                                        <img src="{{ url_for('static', filename='css/images/edit_btn.png') }}" alt="View" title="View User">
+                                    </a>
+                                    <a class="delete_btn" href="#" data-id="${user[0]}">
+                                        <img src="{{ url_for('static', filename='css/images/delete_btn.png') }}" alt="Archive" title="Archive User">
+                                    </a>
+                                </div>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+            })
+            .catch(error => console.error('Error fetching users:', error));
+        }
+
+        document.querySelectorAll('.edit_btn').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const row = this.closest('tr');
+
+                const userId = row.cells[0].textContent;
+                const userName = row.cells[1].textContent;
+                const userEmail = row.cells[2].textContent;
+                const userGender = row.cells[3].textContent;
+                const userCountry = row.cells[4].textContent;
+                const userNumber = row.cells[5].textContent;
+                const userPosition = row.cells[6].textContent;
+
+                document.querySelector('.vname').innerHTML = `<span class="view">Name:</span> ${userName}`;
+                document.querySelector('.vemail').innerHTML = `<span class="view">Email:</span> ${userEmail}`;
+                document.querySelector('.vgender').innerHTML = `<span class="view">Gender:</span> ${userGender}`;
+                document.querySelector('.vcountry').innerHTML = `<span class="view">Country:</span> ${userCountry}`;
+                document.querySelector('.vnum').innerHTML = `<span class="view">Number:</span> ${userNumber}`;
+                document.querySelector('.vpos').innerHTML = `<span class="view">Position:</span> ${userPosition}`;
+
+                document.getElementById('editModal').style.display = 'block';
+            });
+        });
+
+        document.querySelector('.close').addEventListener('click', function () {
+            document.getElementById('editModal').style.display = 'none';
+        });
+
+        window.onclick = function (event) {
+            const modal = document.getElementById('editModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+            
+
+        document.querySelectorAll('.delete_btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const userId = this.getAttribute('data-id');
+                
+                const deleteModal = document.getElementById('deleteModal');
+                deleteModal.style.display = 'block';
+
+                const delwhoElement = deleteModal.querySelector('.delwho');
+                delwhoElement.textContent = `User ${userId}`;
+
+                deleteModal.dataset.userId = userId;
+            });
+        });
+
+        document.querySelector('.closedelmod').addEventListener('click', function() {
+            document.getElementById('deleteModal').style.display = 'none';
+        });
+
+        document.querySelector('.delbutton').addEventListener('click', function() {
+            const deleteModal = document.getElementById('deleteModal');
+            const userId = deleteModal.dataset.userId;
+
+            fetch(`/delete_user/${userId}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    const row = document.querySelector(`.delete_btn[data-id="${userId}"]`).closest('tr');
+                    if (row) {
+                        row.remove();
+                    }
+                    deleteModal.style.display = 'none';
+                    alert('User deleted successfully.');
+                } else {
+                    alert('Failed to delete user.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+
+        document.getElementById('search_user').addEventListener('input', function() {
+            const query = this.value;
+
+            fetch(`/search_users?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.querySelector('.users_tb');
+                tbody.innerHTML = '';
+
+                data.users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user[0]}</td>
+                        <td>${user[1]}</td>
+                        <td>${user[2]}</td>
+                        <td>${user[3]}</td>
+                        <td>${user[4]}</td>
+                        <td>${user[5]}</td>
+                        <td>${user[6]}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a class="edit_btn" href="#">
+                                    <img src="{{ url_for('static', filename='css/images/edit_btn.png') }}" alt="View" title="View User">
+                                </a>
+                                <a class="delete_btn" href="#" data-id="${user[0]}">
+                                    <img src="{{ url_for('static', filename='css/images/delete_btn.png') }}" alt="Archive" title="Archive User">
+                                </a>                                    
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+
+        document.getElementById('search_seller').addEventListener('input', function() {
+            const query = this.value;
+
+            fetch(`/search_sellers?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.querySelector('.sellerapps');
+                tbody.innerHTML = '';
+
+                data.users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${seller.ID}</td>
+                        <td>${seller.name}</td>
+                        <td>${seller.email}</td>
+                        <td>${seller.birthdate}</td>
+                        <td>${seller.number}</td>
+                        <td>${seller.income}</td>
+                        <td>
+                            <a href="/get_valid_id?seller_id=${seller.ID}">${seller.valid_id}</a>
+                        </td>
+                        <td>
+                            <a href="/get_permit?seller_id=${seller.ID}">Business Permit</a>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a class="approve_btn" onclick="approveUser('${seller.email}', event)">
+                                    <img src="{{ url_for('static', filename='css/images/approve_btn.png') }}" alt="Approve" title="Approve User">
+                                </a>                                      
+                                <a class="disapprove_btn" href="#" data-email="${seller.email}">
+                                    <img src="{{ url_for('static', filename='css/images/disapprove_btn.png') }}" alt="Disapprove" title="Disapprove User">
+                                </a>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+
+        function openModal(imageSrc) {
+            const modal = document.getElementById("imageModal");
+            const modalImage = document.getElementById("modalImage");
+            modal.style.display = "block";
+            modalImage.src = imageSrc;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            modal.style.display = "none";
+        }
+
+        function closeModal2() {
+            const modal = document.getElementById("imageModal2");
+            modal.style.display = "none";
+        }
+
+        function renderSellersTable(sellers) {
+            const tableBody = document.querySelector("sellerapps");
+            tableBody.innerHTML = "";
+
+            sellers.forEach(seller => {
+                const row = `
+                    <tr>
+                        <td>${seller.ID}</td>
+                        <td>${seller.name}</td>
+                        <td>${seller.email}</td>
+                        <td>${seller.birthdate}</td>
+                        <td>${seller.number}</td>
+                        <td>${seller.income}</td>
+                        <td>
+                            <a href="/get_valid_id?seller_id=${seller.ID}">${seller.valid_id}</a>
+                        </td>
+                        <td>
+                            <a href="/get_permit?seller_id=${seller.ID}">Business Permit</a>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a class="approve_btn" onclick="approveUser('${seller.email}', event)">
+                                    <img src="{{ url_for('static', filename='css/images/approve_btn.png') }}" alt="Approve" title="Approve User">
+                                </a>                                      
+                                <a class="disapprove_btn" href="#" data-email="${seller.email}">
+                                    <img src="{{ url_for('static', filename='css/images/disapprove_btn.png') }}" alt="Disapprove" title="Disapprove User">
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML("beforeend", row);
+            });
+        }
+
+
+        function approveUser(email, event) {
+            event.preventDefault();
+            if (confirm("Are you sure you want to approve this seller?")) {
+                fetch(`/approve_seller?email=${encodeURIComponent(email)}`, {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Seller approved successfully!");
+                        fetchSellersData();
+                        filterUsers();
+                    } else {
+                        alert("Error approving seller.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            }
+        }
+
+        function approveCourier(email, event) {
+            event.preventDefault();
+            if (confirm("Are you sure you want to approve this courier?")) {
+                fetch(`/approve_courier?email=${encodeURIComponent(email)}`, {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Courier approved successfully!");
+                        fetchCouriersData();
+                        filterUsers();
+                    } else {
+                        alert("Error approving courier.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            }
+        }
+
+        document.querySelectorAll('.disapprove_btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const email = this.getAttribute('data-email');
+
+                const disapproveModal = document.getElementById('disapproveModal');
+                disapproveModal.style.display = 'block';
+
+                const diswhoElement = disapproveModal.querySelector('.diswho');
+                diswhoElement.textContent = `Seller Email: ${email}`;
+
+                disapproveModal.dataset.email = email;
+            });
+        });
+
+        document.querySelector('.closedismod').addEventListener('click', function() {
+            document.getElementById('disapproveModal').style.display = 'none';
+        });
+
+        document.querySelector('.disbutton').addEventListener('click', function() {
+            const disapproveModal = document.getElementById('disapproveModal');
+            const email = disapproveModal.dataset.email;
+            const reason = disapproveModal.querySelector('.disreason').value;
+
+            if (!reason) {
+                alert('Please select a reason for disapproval.');
+                return;
+            }
+
+            fetch(`/disapprove_seller`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, reason })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    disapproveModal.style.display = 'none';
+                    alert("Seller disapproved successfully!");
+                    fetchSellersData();
+                    filterUsers();
+                } else {
+                    alert("Error disapproving seller.");
+                }
+            })
+            .catch(err => console.error('Error:', err));
+        });
+
+
+        document.querySelectorAll('.disapprove_btn2').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const email = this.getAttribute('data-email');
+
+                const disapproveModal = document.getElementById('disapproveModal2');
+                disapproveModal.style.display = 'block';
+
+                const diswhoElement = disapproveModal.querySelector('.diswho2');
+                diswhoElement.textContent = `Courier Email: ${email}`;
+
+                disapproveModal.dataset.email = email;
+            });
+        });
+
+        document.querySelector('.closedismod2').addEventListener('click', function() {
+            document.getElementById('disapproveModal2').style.display = 'none';
+        });
+
+        document.querySelector('.disbutton2').addEventListener('click', function() {
+            const disapproveModal = document.getElementById('disapproveModal2');
+            const email2 = disapproveModal.dataset.email;
+            const reason2 = disapproveModal.querySelector('.disreason2').value;
+
+            if (!reason2) {
+                alert('Please select a reason for disapproval.');
+                return;
+            }
+
+            fetch(`/disapprove_courier`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email2, reason2 })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    disapproveModal.style.display = 'none';
+                    alert("Courier disapproved successfully!");
+                    fetchCouriersData();
+                    filterUsers();
+                } else {
+                    alert("Error disapproving courier.");
+                }
+            })
+            .catch(err => console.error('Error:', err));
+        });
+
+
+        function fetchSellersData() {
+            fetch("/get_sellers_data", {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                renderSellersTable(data.sellers);
+                
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function fetchCouriersData() {
+            fetch("/get_couriers_data", {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                renderCouriersTable(data.couriers);
+                
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+
+        function printReport() {
+            const selectedFilter = document.querySelector('input[name="filterby"]:checked').parentNode.textContent.trim();
+            const dateFrom = document.querySelector('.date_from').value;
+            const dateTo = document.querySelector('.date_to').value;
+            const tableContent = document.querySelector('.sales_table').innerHTML;
+
+            const printContents = `
+                <div class="head">
+                    <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="" class="printlogo">
+                    <p class="headtitle">KidMart Enterprise Co.</p>
+                </div>
+                <div class="print-report">
+                    <h2>Sales Report</h2>
+                    <p>Filter by: ${selectedFilter}</p>
+                    <p class="datez">Date Range: ${dateFrom} - ${dateTo}</p>
+                    <div class="sales_table">
+                        ${tableContent}
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="left">
+                        <h5>Kidmart Enterpise Co.</h5>
+                        <p>Searching for Kiddie Esssentials? There's nothing like Kidmart!</p>
+                    </div>
+                    <div class="right">
+                        <p>Approved by:</p>
+                        <div class="imgz">
+                            <img src="{{ url_for('static', filename='css/images/sign.png') }}" alt="">
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+
+
+    </script>
+    
+</body>
+</html>

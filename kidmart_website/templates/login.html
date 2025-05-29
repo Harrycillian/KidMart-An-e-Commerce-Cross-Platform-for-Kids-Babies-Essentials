@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | KIDMART</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login-style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='css/images/LOGO_icon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="#" class="Logo">
+            <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+        </a>
+        <div class="header-text">Searching For Kiddie Essentials? There’s nothing like KidMart!</div>
+        <a href="{{ url_for('become_seller') }}" class="seller-btn">Register as Seller</a>
+    </header>
+
+    <section class="main">
+        <div class="main-content">
+            <div class="frame">
+                <form action="{{ url_for('login_acc') }}" method="POST">
+                <div class="main-text">
+                    <h1>Log In</h1>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="email" required>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="password" required>
+                    <a href="{{ url_for('forgot_pass') }}" class="fpass" name="fpass">Forgot Password?</a>
+                    <button type="submit" class="login" name="login">Login</button>
+
+                    <a href="{{ url_for('create_acc') }}" class="signup" name="signup">Don’t have an account yet? Sign up now</a>
+
+                    {% if error %}
+                    <p class="error-message">{{ error }}</p>
+                    {% endif %}
+                </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

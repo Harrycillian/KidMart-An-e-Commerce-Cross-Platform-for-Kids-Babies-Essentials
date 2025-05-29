@@ -1,0 +1,245 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+
+body {
+    background: #E9EFFF;
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: PoppinsItalic;
+    src: url(fonts/Poppins/Poppins-Italic.ttf);
+}
+
+@font-face {
+    font-family: PoppinsMed;
+    src: url(fonts/Poppins/Poppins-Medium.ttf);
+}
+
+header{
+    background-color: #FDFDFD;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+}
+
+.Logo img{
+    max-width: 115px;
+    height: auto;
+}
+
+.header-text {
+    display: flex;
+    position: absolute;
+    font-family: PoppinsItalic;
+    font-size: 27px;
+    color: #2C2C2C;
+    padding-left: 150px;
+}
+
+.seller-btn {
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-family: PoppinsMed;
+    font-size: 12px;
+    transition: 0.4s;
+}
+.seller-btn:hover {
+    background-color: #333;
+    color: #eee;
+}
+
+section{
+    padding: 5% 10%;
+}
+.main{
+    background-image: url(images/login_bg.png);
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    align-items: center;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.frame {
+    width: 100%;
+    max-width: 390px;
+    height: 405px; 
+    background-color: #fdfdfd; 
+    margin-right: 20px; 
+    margin-top: 100px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+@media screen and (max-width: 768px) {
+    .main-content {
+        flex-direction: column; 
+    }
+    
+    .rectangle {
+        max-width: 100%;
+        height: 200px;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .header-text {
+        font-size: 24px;
+    }
+}
+
+.main-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 25px;
+    max-width: 400px;
+}
+
+.main-text h1 {
+    font-family: PoppinsMed, sans-serif;
+    font-size: 30px;
+    color: #2C2C2C;
+    margin-bottom: 15px;
+    margin-left: 40px;
+}
+
+.main-text label {
+    font-family: Poppins, sans-serif;
+    font-size: 14px;
+    color: #2C2C2C;
+    margin-bottom: 4px;
+    margin-left: 40px;
+    margin-top: 5px;
+}
+
+.email {
+    width: 79%;
+    padding: 10px;
+    font-family: Poppins;
+    font-size: 14px;
+    border: 1px solid #343434;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-shadow: inset 0px 2px 4px #0000001a;
+}
+.password {
+    width: 79%;
+    padding: 10px;
+    font-family: Poppins;
+    font-size: 14px;
+    border: 1px solid #343434;
+    border-radius: 5px;
+    margin-bottom: 4px;
+    margin-left: 40px;
+    margin-right: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-shadow: inset 0px 2px 4px #0000001a;
+}
+
+.fpass {
+    font-family: Poppins;
+    font-size: 11px;
+    color: #667;
+    text-align: right;
+    margin-right: 50px;
+    margin-bottom: 13px;
+}
+.fpass:hover {
+    color: #555;
+    font-weight: 600;
+}
+
+.main-text button {
+    width: 79%;
+    padding: 12px;
+    background-color: #343434;
+    border: 0;
+    border-radius: 7px;
+    margin-left: 40px;
+    margin-right: 40px;
+    font-size: 16px;
+    font-family: PoppinsMed, sans-serif;
+    color: #fdfdfd;
+    cursor: pointer;
+}
+
+.main-text button:hover {
+    background-color: #454545;
+}
+
+@media screen and (max-width: 768px) {
+    .main-text {
+        margin-top: 50px;
+    }
+    
+    .main-text h1 {
+        font-size: 28px;
+    }
+    
+    .main-text label {
+        font-size: 14px;
+    }
+    
+    .main-text input {
+        font-size: 12px;
+    }
+    
+    .main-text button {
+        font-size: 14px;
+    }
+}
+
+.signup {
+    margin-top: 20px;
+    font-family: Poppins;
+    font-size: 12px;
+    color: #2c2c2c;
+    background: none;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.error-message {
+    font-family: Poppins;
+    font-size: 12px;
+    color: #da0000;
+    text-align: center;
+    margin-top: 8px;
+}

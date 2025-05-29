@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Registration | KIDMART</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/seller_reg_success-style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='css/images/LOGO_icon.ico') }}" type="image/x-icon">
+    
+</head>
+<body>
+    <header>
+        <a href="#" class="Logo">
+            <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+        </a>
+        <div class="header-text">Searching For Kiddie Essentials? There’s nothing like KidMart!</div>
+    </header>
+
+    <section class="main">
+        <div class="main-content">
+            <div class="container">
+                <h1>Success!</h1>
+                <h2>Your application has been submitted.<br>
+                    Please wait for approval. We will send you an email.<br>
+                    Thank you!</h2>
+                <form action="{{ url_for('index') }}">
+                    <button type="submit" name="btn" id="btn">Back to Login</button>
+                </form>                    
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

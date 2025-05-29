@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification | KIDMART</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/seller_reg_otp-style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='css/images/LOGO_icon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="#" class="Logo"><img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="Logo"></a>
+        <div class="header-text">
+        <h2>Searching For Kiddie Essentials? There's Nothing Like KidMart!</h2>
+        </div>
+    </header>
+  
+    <section>
+        <div class="otp-form-container">
+            <h2>
+                <img src="{{ url_for('static', filename='css/images/verify_icon.png') }}" class="verify-icon">Human Verification
+            </h2>
+            <h5>Verify your email before proceeding to seller registration.</h5>
+        
+            <form id="otpForm" method="POST">
+                <label for="email">Recipient's Email</label>
+                <div class="email-container">
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                    <button type="button" class="send-otp-button">Send OTP</button>
+                </div>
+            
+                <label for="otp">OTP</label>
+                <input type="text" id="otp" name="otp" class="otp_inpt" required placeholder="Enter OTP" maxlength="6">
+            
+                <input type="hidden" id="generatedOtp" name="generatedOtp">
+            
+                <button type="button" class="confirm-otp-button">Confirm</button>
+            </form>            
+        </div>
+    </section>    
+
+  <script>
+        document.querySelector('.send-otp-button').addEventListener('click', function (event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+
+            if (email) {
+                fetch('/send_otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${email}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        document.getElementById('generatedOtp').value = data.otp;
+                    } else if (data.error) {
+                        alert(`Error: ${data.error}`);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                alert('Please enter a valid email address');
+            }
+        });
+
+        document.querySelector('.confirm-otp-button').addEventListener('click', function (event) {
+            event.preventDefault();
+            const enteredOtp = document.getElementById('otp').value;
+            const generatedOtp = document.getElementById('generatedOtp').value;
+
+            if (enteredOtp === generatedOtp) {
+                window.location.href = `/seller_registration`;
+            } else {
+                alert('OTP is incorrect. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

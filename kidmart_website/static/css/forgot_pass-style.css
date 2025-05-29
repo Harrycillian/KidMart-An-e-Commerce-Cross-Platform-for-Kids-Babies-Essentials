@@ -1,0 +1,155 @@
+@font-face {
+    font-family: Poppins;
+    src: url(fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: PoppinsItalic;
+    src: url(fonts/Poppins/Poppins-Italic.ttf);
+}
+
+@font-face {
+    font-family: PoppinsMed;
+    src: url(fonts/Poppins/Poppins-Medium.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    background: url(images/forgotpass_bg.png);
+    background-size: cover;
+    display: flex;
+    min-height: 100vh;
+}
+
+header{
+    font-family: 'Poppins', sans-serif;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 5%;
+}
+
+.Logo img{
+    max-width: 125px;
+    height: auto;
+}
+
+.header-text {
+    display: flex;
+    position: absolute;
+    font-family: PoppinsItalic;
+    font-size: 27px;
+    color: #2C2C2C;
+    padding-left: 150px;
+}
+
+#gotologin {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-family: Poppins;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+#gotologin:hover {
+    background-color: #686868;
+}
+
+.otp-form-container {
+    width: 500px;
+    padding: 30px 65px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 30%;
+    margin-left: 35%;
+}
+.otp-form-container h2 {
+    color: #333;
+    font-size: 22px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-family: PoppinsMed;
+    font-size: 13px;
+    font-weight: regular;
+    color: #555;
+    text-align: left;  
+}
+
+.email-container {
+    display: flex;
+    align-items: stretch; 
+}
+
+input[type="email"], input[type="text"]{
+    width: 100%;
+    padding: 10px 25px;
+    margin: top 5px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    font-size: 13px;
+}
+input[type="password"], input[type="text"]{
+    width: 100%;
+    padding: 10px 25px;
+    margin-bottom: 8px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    font-size: 13px;
+}
+.send-otp-button {
+    padding: 10px 10px; 
+    border: none;
+    background-color: #70a0d7;
+    color: #eee;
+    font-size: 13px;
+    font-family: PoppinsMed;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    height: auto; 
+    width: 40%;
+    margin-left: 10px;
+}
+.send-otp-button:hover {
+    background-color: #90b4dd;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background-color: #2C2C2C;
+    border: none;
+    color: #eee;
+    font-size: 13px;
+    font-family: PoppinsMed;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    margin-bottom: 8px;
+
+}
+button[type="submit"]:hover {
+    background-color: #3d3d3d;
+}

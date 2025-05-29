@@ -1,0 +1,218 @@
+@font-face {
+  font-family: Roboto;
+  src: url(fonts/Roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+  font-family: LeagueSpartan;
+  src: url(fonts/League/LeagueSpartan-Regular.ttf);
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url(fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+  font-family: PoppinsMed;
+  src: url(fonts/Poppins/Poppins-Medium.ttf);
+}
+
+@font-face {
+  font-family: PoppinsSemi;
+  src: url(fonts/Poppins/Poppins-SemiBold.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+
+body{
+  background: url(images/register_bg.png);
+  background-size: cover;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  min-height: 100vh;
+}
+
+header{
+  font-family: Poppins;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 5%;
+}
+.header-text h2{
+  font-family: Poppins;
+  font-style: italic;
+  font-weight: 500;
+  color: #2C2C2C;
+  font-size: 25px;
+  margin-right: 300px;
+}
+.Logo img{
+    max-width: 125px;
+    height: auto;
+}
+.navmenu{
+    display: flex;
+}
+.navmenu a{
+    color: #2C2C2C;
+    font-size: 12px;
+    font-family: Roboto;
+    text-transform: capitalize;
+    padding: 10px 20px;
+    font-weight: 600;
+    transform: all .42s ease;
+}
+.navmenu a:hover{
+    color: #49ADFF;
+}
+.navicons{
+    display: flex;
+    align-items: center;
+}
+.navicons i{
+    margin-right: 20px;
+    color: #2C2C2C;
+    font-size: 25px;
+    font-weight: 400;
+    transform: all .42s ease;
+}
+.navicons i:hover{
+    transform: scale(1.1);
+    color: #49ADFF;
+}
+.navicons button {
+    outline: none;
+    border: none;
+    background: none;
+}
+
+.otp-form-container {
+    width: 560px;
+    padding: 50px 11%;
+    padding-top: 25px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 17%;
+    margin-right: 100%;
+    text-align: left;
+}
+.verify-icon {
+    width: 34px;
+    height: 34px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.otp-form-container h2 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-family: PoppinsMed;
+    color: #2c2c2c;
+    text-align: center;
+}
+
+.otp-form-container h5 {
+    font-family: Poppins;
+    margin-bottom: 30px;
+    color: #353535;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: PoppinsMed;
+    color: #484848;
+    text-align: left;
+}
+
+.email-container {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+input[type="email"] {
+    width: 75%;
+    padding: 10px 24px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: Poppins;
+    height: 44px;
+    vertical-align: middle;
+}
+
+input[type="text"] {
+    width: 75%;
+    padding: 10px 24px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: Poppins;
+}
+
+.send-otp-button {
+    padding: 10px 15px; 
+    width: 25%; 
+    border: none;
+    background-color: #54b1e7;
+    color: #eee;
+    font-family: PoppinsMed;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.4s;
+    margin: 0;
+    height: 44px;
+    display: inline-block;
+    align-self: stretch;
+}
+.send-otp-button:hover {
+  background-color: #7ec9f5;
+}
+
+label[for="otp"] {
+    margin-top: 4px; 
+}
+
+.confirm-otp-button {
+    background-color: #333;
+    color: #eee;
+    width: 75%;
+    padding: 13px;
+    font-family: PoppinsMed;
+    margin-top: 18px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.5s;
+}
+.confirm-otp-button:hover {
+    background-color: #555;
+}

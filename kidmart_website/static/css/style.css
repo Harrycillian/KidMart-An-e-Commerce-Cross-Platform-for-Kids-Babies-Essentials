@@ -1,0 +1,169 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('images/blue_bg.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    min-height: 100vh;
+}
+
+@font-face {
+    font-family: LeagueSpartan;
+    src: url('fonts/LeagueSpartan-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: LeagueReg;
+    src: url('fonts/LeagueSpartan-Regular.ttf');
+}
+
+.container {
+    position: absolute;
+    width: 54.7%;
+    height: 85%;
+    left: 290px;
+    top: 8vh;
+    background: #E8ECF9;
+    border-radius: 20px;
+    padding: 0;
+}
+
+.labels {
+    position: absolute;
+    top: 62px;
+    left: 15%;
+    line-height: 70px;
+    font-family: LeagueSpartan;
+    color: #1E1E1E;
+    font-size: 18px;
+    color: #1e1e1e;
+}
+
+.name {
+    position: absolute;
+    width: 50%;
+    height: 40px;
+    left: 31%;
+    top: 70px;
+    font-family: LeagueReg;
+    font-size: 16px;
+    background: #F1F1F1;
+    border: 1px solid #8F8F8F;
+    border-radius: 10px;
+    padding-left: 25px;
+}
+
+.email {
+    position: absolute;
+    width: 50%;
+    height: 40px;
+    left: 31%;
+    top: 142px;
+    font-family: LeagueReg;
+    font-size: 16px;
+    background: #F1F1F1;
+    border: 1px solid #8F8F8F;
+    border-radius: 10px;
+    padding-left: 25px;
+}
+
+.number {
+    position: absolute;
+    width: 23%;
+    height: 40px;
+    right: 15.1%;
+    top: 277px;
+    font-family: LeagueReg;
+    font-size: 16px;
+    background: #F1F1F1;
+    border: 1px solid #8F8F8F;
+    border-radius: 10px;
+    padding-left: 20px;
+    font-family: LeagueReg;
+}
+
+.password {
+    position: absolute;
+    width: 47.5%;
+    height: 40px;
+    left: 31%;
+    top: 356px;
+    font-family: LeagueReg;
+    font-size: 16px;
+    background: #F1F1F1;
+    border: 1px solid #8F8F8F;
+    border-radius: 10px;
+    padding-left: 25px;
+    padding-right: 20px;
+}
+
+.radio-group label {
+    position: relative;
+    margin-right: 40px;
+    font-size: 18px;
+    font-family: LeagueReg;
+    top: 227px;
+    left: 245px;
+    cursor: pointer;
+}
+
+#dropdown {
+    position: absolute;
+    width: 26%;
+    height: 44px;
+    top: 277px;
+    left: 31%;
+    font-family: LeagueReg;
+    font-size: 16px;
+    border-radius: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid #8f8f8f;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+.agree {
+    position: absolute;
+    bottom: 19.8%;
+    left: 205px;
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
+    accent-color: #6294ff;
+}
+
+label {
+    position: absolute;
+    left: 230px;
+    bottom: 20%;
+    font-family: LeagueReg;
+    font-size: 14px;
+    color: #1E1E1E;
+}
+
+label span {
+    color: #364AFF;
+    text-decoration: underline;
+    text-decoration-color: #364AFF;
+    cursor: pointer;
+}
+
+#submit_form {
+    position: absolute;
+    left: 29.5%;
+    width: 40%;
+    height: 50px;
+    bottom: 9%;
+    background: #1E1E1E;
+    border-radius: 15px;
+    font-family: LeagueSpartan;
+    font-size: 16px;
+    color: #F1F1F1;
+    cursor: pointer;
+}
+
+#submit_form:hover {
+    background: #373737;
+}

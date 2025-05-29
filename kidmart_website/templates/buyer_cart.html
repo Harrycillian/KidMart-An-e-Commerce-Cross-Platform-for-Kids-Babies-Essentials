@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | KIDMART</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/buyer_cart-style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='css/images/LOGO_icon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="#" class="Logo">
+            <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+        </a>
+        
+        <div class="title">My Shopping Cart</div>
+        <div class="icons">
+            <a href="{{ url_for('show_buyer_products', user_id=user_id) }}" class="back">
+                <img src="{{ url_for('static', filename='css/images/back_icon.png') }}" title="Back to Home">
+            </a>
+            <!-- <a href="#" class="msg">
+                <img src="{{ url_for('static', filename='css/images/msg_icon.png') }}" title="Messages">
+            </a> -->
+            <input type="hidden" name="user_id" value="{{ user_id }}">
+            <p name="user_id" style="display:none;">{{ user_id }}</p>
+        </div>
+    </header>
+
+    <section class="main">
+        <div class="labelz">
+            <p class="prod">Products</p>
+            <p class="unit_price">Unit Price</p>
+            <p class="qty">Quantity</p>
+            <p class="total_price">Total Price</p>
+            <p class="actions">Actions</p>
+        </div>
+        
+        <form method="POST" action="{{ url_for('checkout', user_id=user_id) }}">
+            <input type="hidden" name="user_id" value="{{ user_id }}">
+            <div class="cart-frame">
+                {% if cart_items %}
+                    {% for product in cart_items %}
+                    <div class="prod_in_cart">
+                        <input type="hidden" name="seller_id" value="{{ product.seller_id }}">
+                        <input type="hidden" class="hidden_pid" value="{{ product.pid }}">
+                        <input type="checkbox" class="select_prod" name="select_prod" value="{{ product.cid }}" onchange="calculateTotal()">
+                        <input type="hidden" class="hidden_cid" value="{{ product.cid }}">
+                        <img src="data:image/jpeg;base64,{{ product.image | b64encode }}" alt="{{ product.ptitle }}" class="prod-image">
+        
+                        <div class="prod_details">
+                            <p class="prod_name">{{ product.ptitle }}</p>
+                            <label for="vars" class="var">Variation:</label>
+                            <button type="button" name="vars" class="vars">{{ product.variation }}</button>
+                        </div>
+        
+                        <p class="total_prod_price" data-price="{{ product.price }}">₱{{ product.price }}</p>
+        
+                        <div class="number-input">
+                            <button class="minus" onclick="decrement(this, event)">-</button>
+                            <input type="number" id="quantity-{{ product.cid }}" name="quantity" value="{{ product.quantity }}" min="1">
+                            <button class="plus" onclick="increment(this, event)">+</button>
+                        </div>
+        
+                        <p class="total_unit_price" id="total_unit_price">₱{{ product.total_unit_price }}</p>
+        
+                        <a href="javascript:void(0);" class="remove_from_cart" data-pid="{{ product.pid }}" onclick="removeFromCart(this)">
+                            <img src="{{ url_for('static', filename='css/images/remove_btn.png') }}" title="Remove">
+                        </a>
+                    </div>                    
+                    {% endfor %}
+                {% else %}
+                    <p style="text-align:center; font-family:Roboto; margin-top:50px; color:#444;">Your cart is empty.</p>
+                {% endif %}
+            </div>
+        
+            <footer class="checkoutshit">
+                <div class="checkall">
+                    <input type="checkbox" name="select_all">
+                    <label for="select_all"> Select All </label>
+                    <a href="javascript:void(0);" class="del_btn" onclick="removeSelectedFromCart()">Remove Selected</a>
+                </div>
+        
+                <div class="ttl_container">
+                    <p class="ttl">Total:</p>
+                    <p class="cart_total">₱0.00</p>
+                    <button type="button" class="checkout_btn" onclick="checkout()">Check Out</button>
+                </div>
+            </footer>
+        </form>
+    </section>
+
+    <script>
+        // THIS SHIT DOESN'T FVCKING WORK WTF
+        function decrement(button, event) { 
+            event.preventDefault();
+            const productDiv = button.closest('.prod_in_cart');
+            const input = productDiv.querySelector('input[name="quantity"]');
+            const cid = productDiv.querySelector('.hidden_cid').value;
+            console.log(`Decrement called with Cart ID: ${cid}, New Quantity: ${input.value - 1}`);
+            if (input.value > 1) {
+                input.value--;
+                updateQuantity(cid, input.value);
+            }
+        }
+
+        function increment(button, event) {
+            event.preventDefault();
+            const productDiv = button.closest('.prod_in_cart');
+            const input = productDiv.querySelector('input[name="quantity"]');
+            const cid = productDiv.querySelector('.hidden_cid').value;
+            console.log(`Increment called with Cart ID: ${cid}, New Quantity: ${input.value + 1}`);
+            input.value++;
+            updateQuantity(cid, input.value);
+        }
+
+        function updateQuantity(cid, newQuantity) {
+            const userId = document.getElementById('user_id').textContent.trim();
+            fetch(`/update-cart?user_id=${userId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cid, quantity: newQuantity }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const productDiv = document.querySelector(`#quantity-${cid}`).closest('.prod_in_cart');
+                    const totalUnitPriceElement = productDiv.querySelector('.total_unit_price');
+                    totalUnitPriceElement.textContent = `₱${data.new_total_unit_price.toFixed(2)}`;
+                    calculateTotal();
+                } else {
+                    console.error('Error updating quantity:', data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            
+            document.querySelectorAll('.select_prod').forEach(checkbox => {
+                if (checkbox.checked) {
+                    const productDiv = checkbox.closest('.prod_in_cart');
+                    const unitPriceElement = productDiv.querySelector('.total_unit_price');
+                    const unitPrice = parseFloat(unitPriceElement.textContent.replace('₱', ''));
+
+                    total += unitPrice;
+                }
+            });
+            
+            const totalElement = document.querySelector('.cart_total');
+            totalElement.textContent = `₱${total.toFixed(2)}`;
+        }
+
+        document.querySelector('[name="select_all"]').addEventListener('change', function() {
+            const allCheckboxes = document.querySelectorAll('.select_prod');
+            allCheckboxes.forEach(checkbox => checkbox.checked = this.checked);
+            calculateTotal();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateTotal();
+        });
+
+
+        function removeFromCart(element) {
+            if (confirm("Are you sure you want to remove this product from your cart?")) {
+                const cid = element.closest('.prod_in_cart').querySelector('.hidden_cid').value;
+                const user_id = document.querySelector('input[name="user_id"]').value;
+
+                console.log(`Updating status of item with cid: ${cid} for user_id: ${user_id}`);
+
+                const productRow = element.closest('.prod_in_cart');
+                productRow.remove();
+
+                fetch(`/remove-from-cart?user_id=${user_id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ cid: cid })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("The product has been removed from your cart.");
+                        calculateTotal();
+                    } else {
+                        alert("Failed to update product status.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            }
+        }
+        
+        function removeSelectedFromCart() {
+            const selectedProducts = document.querySelectorAll('.select_prod:checked');
+
+            if (selectedProducts.length === 0) {
+                alert("Please select at least one product to remove.");
+                return;
+            }
+
+            if (confirm("Are you sure you want to remove the selected products from your cart?")) {
+                const productCids = Array.from(selectedProducts).map(prod => prod.closest('.prod_in_cart').querySelector('.hidden_cid').value);
+                const user_id = document.querySelector('input[name="user_id"]').value;
+                
+                fetch('/remove-selected-from-cart?user_id=' + user_id, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ product_ids: productCids })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        selectedProducts.forEach(prod => prod.closest('.prod_in_cart').remove());
+                        alert("Selected products have been successfully removed from your cart.");
+                        calculateTotal();
+                    } else {
+                        alert("Failed to remove selected products.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            }
+        }
+
+
+        function checkout() {
+            let selectedItems = [];
+
+            document.querySelectorAll('.select_prod:checked').forEach(function(checkbox) {
+                let prodContainer = checkbox.closest('.prod_in_cart');
+
+                let pid = prodContainer.querySelector('.hidden_pid').value;  
+                let variation = prodContainer.querySelector('.vars').innerText;
+                let quantity = prodContainer.querySelector('input[type="number"]').value;
+                let price = prodContainer.querySelector('.total_prod_price').dataset.price;
+                let total_unit_price = prodContainer.querySelector('.total_unit_price').textContent.replace('₱', '');
+                let cid = prodContainer.querySelector('.hidden_cid').value;
+
+                selectedItems.push({
+                    pid: pid,
+                    variation: variation,
+                    quantity: quantity,
+                    price: price,
+                    total_unit_price: total_unit_price,
+                    seller_id: prodContainer.querySelector('input[name="seller_id"]').value,
+                    cid: cid
+                });
+            });
+
+            if (selectedItems.length === 0) {
+                alert("Please select at least one product for checkout.");
+                return;
+            }
+
+            let userId = document.querySelector('input[name="user_id"]').value;
+
+            let formData = new FormData();
+            formData.append('user_id', userId);
+            formData.append('shipping_fee', '40.00');
+            formData.append('selected_items', JSON.stringify(selectedItems));
+
+            fetch(`/checkout/${userId}`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Checkout response data:", data);  // Add this line
+                if (!data.success) {
+                    alert(data.message);
+                } else {
+                    const userId = document.querySelector('input[name="user_id"]').value;
+                    const orderIdsParams = data.order_ids.map(id => `order_id=${id}`).join('&');
+                    window.location.href = `/checkout_page/${userId}?${orderIdsParams}`;
+                }
+            })
+            .catch(error => {
+                console.error("Checkout error:", error);
+                alert("An error occurred during checkout. Please try again.");
+            });
+        }
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+@font-face {
+    font-family: Roboto;
+    src: url(fonts/Roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: LeagueSpartan;
+    src: url(fonts/League/LeagueSpartan-Regular.ttf);
+}
+
+@font-face {
+    font-family: PoppinsThin;
+    src: url(fonts/Poppins/Poppins-Light.ttf);
+}
+
+@font-face {
+    font-family: PoppinsItalic;
+    src: url(fonts/Poppins/Poppins-Italic.ttf);
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: PoppinsMed;
+    src: url(fonts/Poppins/Poppins-Medium.ttf);
+}
+
+@font-face {
+    font-family: PoppinsSemi;
+    src: url(fonts/Poppins/Poppins-SemiBold.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+header{
+    font-family: "Roboto", sans-serif;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.07);
+}
+
+.title {
+    display: flex;
+    position: absolute;
+    font-family: PoppinsItalic;
+    font-size: 27px;
+    color: #2c2c2c;
+    padding-left: 150px;
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    gap: 13px;
+}
+.icons a {
+    width: auto;
+    height: 26px;
+}
+.back img {
+    height: 27px;
+    width: auto;
+}
+.back:hover img {
+    content: url(images/back_hover.png);
+}
+.msg img {
+    margin-top: -5px;
+    transition: opacity 0.5s;
+}
+.msg:hover img {
+    content: url(images/msg_hover.png);
+}
+
+.Logo img{
+    max-width: 125px;
+    height: auto;
+}
+
+.number-input {
+    display: flex;
+    align-items: center;
+}
+
+.number-input button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.number-input input[type="number"] {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-right: none;
+    padding: 0.3rem;
+    font-family: PoppinsMed;
+    font-size: 1rem;
+    outline: none;
+}
+
+.number-input button:focus, .number-input input:focus {
+    outline: none;
+}
+.number-input .minus {
+    font-family: PoppinsMed;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+}
+.number-input .plus {
+    font-family: PoppinsMed;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+}
+
+body, html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #f4f4f4;
+}
+
+.main {
+    flex: 1;
+    padding-top: 190px;
+    padding-bottom: 60px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.labelz {
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 50px;
+    position: fixed;
+    top: 120px;
+    left: 10%;
+    right: 10%;
+    z-index: 1000; 
+}
+
+.labelz p {
+    margin: 0;
+    font-family: PoppinsSemi;
+    color: #2c2c2c;
+    text-align: center;
+}
+
+.labelz p.prod {
+    flex: 2.2;
+    text-align: left; 
+    padding-left: 40px;
+}
+
+.labelz p.unit_price {
+    flex: 0.6;
+    text-align: center;
+}
+
+.labelz p.qty {
+    flex: 1.2;
+    text-align: center;
+}
+
+.labelz p.total_price {
+    flex: 0.8;
+    text-align: center;
+}
+
+.labelz p.actions {
+    flex: 0.4;
+    text-align: right;
+}
+
+.cart-frame {
+    margin: 0 auto;
+    margin-bottom: 120px;
+    width: 100%;
+    max-width: 1200px;
+}
+.prod_in_cart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem;
+    padding-left: 30px;
+    padding-right: 50px;
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 7px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.prod_in_cart input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    accent-color: #72a3ff;
+}
+
+.prod_in_cart img {
+    margin-right: 10px;
+    width: 125px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.prod_details {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    flex: 1;
+    text-align: left;
+}
+
+.prod_name {
+    text-align: left;
+    font-family: PoppinsSemi;
+    font-size: 16px;
+    color: #2c2c2c;
+    margin-bottom: 0.2rem;
+}
+
+.var {
+    font-family: Poppins;
+    font-size: 10px;
+    color: #767676;
+}
+
+.vars {
+    max-width: 50%;
+    font-family: Poppins;
+    color: #2c2c2c;
+    border: none;
+    border-radius: 5px;
+    margin-top: 0.2rem;
+    padding: 0.5rem 1rem;
+}
+
+.prod_uprice, .total_prod_price, .total_unit_price {
+    font-family: PoppinsMed;
+    color: #2c2c2c;
+    text-align: center;
+    flex: 1; 
+}
+
+.remove_from_cart img {
+    object-fit: cover;
+    transition: .5s;
+    width: 25px;
+    height: auto;
+    cursor: pointer;
+}
+.remove_from_cart img:hover {
+    transform: scale(1.1);
+    
+}
+
+footer.checkoutshit {
+    font-family: Poppins;
+    background-color: #d7dbe2;
+    border-top: 1px solid #ddd;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 2rem 0;
+    padding-left: 12%;
+    padding-right: 9%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+footer.checkoutshit a, footer.checkoutshit label {
+    margin: 0;
+    font-family: Poppins;
+    font-size: 0.9rem;
+}
+
+.del_btn {
+    color: #ff1d1d;
+    padding-left: 5rem;
+}
+
+.ttl_container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ttl {
+    font-family: PoppinsMed;
+    font-size: 16px;
+    color: #484848;
+    margin: 0;
+}
+
+.cart_total {
+    font-family: PoppinsMed;
+    color: #2c2c2c;
+    font-size: 24px;
+    margin: 0;
+    margin-right: 30px;
+}
+
+.checkout_btn {
+    border: none;
+    font-family: PoppinsMed;
+    background-color: #74aeff;
+    padding: 15px 50px;
+    color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.checkout_btn:hover {
+    background-color: #90bdfc;
+}
+
+footer.checkoutshit input[type="checkbox"] {
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+    accent-color: #72a3ff;
+}

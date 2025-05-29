@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Orders | KIDMART</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/seller_orders-style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='css/images/LOGO_icon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="#" class="Logo">
+            <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+        </a>
+        <div class="header-text">Manage Orders</div>
+        <div class="navicons">
+            <a href="{{ url_for('show_products', seller_id=seller_id) }}" class="back">
+                <img src="{{ url_for('static', filename='css/images/back_icon.png') }}" title="Back to Home">
+            </a>
+            <!-- <a href="#" class="msg_icon" title="Messages">
+                <img src="{{ url_for('static', filename='css/images/msg_icon.png') }}">
+            </a> -->
+            <a href="#" class="notif_icon" title="Notifications">
+                <img src="{{ url_for('static', filename='css/images/notif_icon.png') }}">
+            </a>
+            <a href="#" class='person_icon' id="person_icon" title="Profile">
+                <img src="{{ url_for('static', filename='css/images/person_icon.png') }}">
+            </a>
+            <div id="profileDetails" style="display: none;">
+                <a href="{{ url_for('gotologin') }}" class="logout_btn" onclick="return confirmLogout()">Log Out</a>
+            </div>
+            
+            <p name="seller_id" style="display: none;">{{ seller_id }}</p>
+        </div>
+    </header>
+
+    <section class="main2">
+        <div class="maincontent2">
+            <div class="radiosss">
+                <label>
+                    <input type="radio" name="option" value="To Approve" class="radio-input" checked onchange="filterOrders(this.value)">
+                    <span class="radio-label">To Approve</span>
+                </label>
+                <label>
+                    <input type="radio" name="option" value="To Ship" class="radio-input" onchange="filterOrders(this.value)">
+                    <span class="radio-label">To Ship</span>
+                </label>
+                <label>
+                    <input type="radio" name="option" value="To Receive" class="radio-input" onchange="filterOrders(this.value)">
+                    <span class="radio-label">To Receive</span>
+                </label>
+                <label>
+                    <input type="radio" name="option" value="To Rate" class="radio-input" onchange="filterOrders(this.value)">
+                    <span class="radio-label">To Rate</span>
+                </label>
+                <label>
+                    <input type="radio" name="option" value="Completed" class="radio-input" onchange="filterOrders(this.value)">
+                    <span class="radio-label">Completed</span>
+                </label>
+                <label>
+                    <input type="radio" name="option" value="Cancelled" class="radio-input" onchange="filterOrders(this.value)">
+                    <span class="radio-label">Cancelled</span>
+                </label>
+            </div>
+            {% for order in orders %}
+                <div class="order-card">
+                    <div class="labelzzss">
+                        <p class="prodets">Product Details</p>
+                        <p class="unit_lbl">Unit Price</p>
+                        <p class="qty_lbl">Quantity</p>
+                        <p class="total_lbl">Total</p>
+                    </div>
+                    <div class="order-details">
+                        {% for item in order['items'] %}
+                            <div class="order-item">
+                                <div class="item-container">
+                                    {% if item['pimage'] %}
+                                        <img src="data:image/jpeg;base64,{{ item['pimage'] }}" alt="{{ item['ptitle'] }}" class="order-image">
+                                    {% else %}
+                                        <p>No Image Available</p>
+                                    {% endif %}
+                                    
+                                    <div class="item-info">
+                                        <h2 class="order-name">{{ item['ptitle'] }}</h2>
+                                        <p class="order-variation">{{ item['variation'] }}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="price_qty">
+                                    <p class="order_prod_price">₱{{ item['price'] }}</p>
+                                    <p class="order-qty">x{{ item['quantity'] }}</p>                                    
+                                    <p class="prod_total">₱{{ item['price'] * item['quantity'] }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="border-line"></div>
+                    </div>                                     
+
+                    <div class="order-infos">
+                        <div class="buyer_info">
+                            <h5 class="ship_to">Ship To</h5>
+                            <input type="hidden" class="buyer_id" value="{{ order['buyer_id'] }}">
+                            <p class="address_name"><span>Buyer Name:</span> {{ order['buyer_name'] }}</p>
+                            <p class="buyer_address"><span>Contact:</span> (+63) {{ order['contact_number'] }}</p>
+                            <p class="shipping_address"><span>Address:</span><br>{{ order['shipping_address'] }}</p>
+                        </div>                                            
+                    
+                        <div class="shipping_dets">
+                            <h5 class="datez">Shipping Details</h5>
+                            <p class="order_date"><span>Purchase Date:</span> {{ order['order_datetime'] }}</p>
+                            <p class="ship_date"><span>Shipment Date:</span> {{ order['order_ship_datetime'] }}</p>
+                            <p class="delivered_date"><span>Delivered:</span> {{ order['order_delivered_datetime'] }}</p>
+                        </div>
+                    
+                        <div class="order_sum">
+                            <h5 class="summary">Order Summary</h5>
+                            <div class="oid">
+                                <p class="oidz">Order ID: &nbsp; {{ order['order_id'] }}</p>
+                            </div>
+                            <div class="merch_subtotal">
+                                <p class="merch">Merchandise Subtotal</p>
+                                <p class="merch_price">₱{{ order['order_total'] - order['shipping_fee'] }}</p>
+                            </div>
+                            <div class="shippingfee">
+                                <p class="sf">Shipping Subtotal</p>
+                                <p class="sf_price">₱{{ order['shipping_fee'] }}</p>
+                            </div>
+                            <div class="grandtotal">
+                                <p class="lahatan">Total Payment</p>
+                                <p class="lahatan_price">₱{{ order['order_total'] }}</p>
+                            </div>
+                        </div>
+                    </div>                    
+
+                    <div class="action-buttons2" id="action-buttons-{{ order['order_id'] }}">
+                        <p class="parcel_loc start"><span>Status:</span> {{ order['parcel_loc'] }}</p>
+                        {% if order['status'] == 'To Approve' %}
+                        <form id="approve-form-{{ order['order_id'] }}" action="{{ url_for('seller_approve_order', order_id=order['order_id'], seller_id=seller_id) }}" method="POST" onsubmit="return approveOrder(event);">
+                            <input type="hidden" name="order_id" value="{{ order['order_id'] }}">
+                            <button type="submit" class="approve_order_btn">Approve</button>
+                        </form>
+                        {% elif order['status'] == 'To Ship' %}
+                        <form id="ship-form-{{ order['order_id'] }}" action="{{ url_for('seller_mark_shipped', order_id=order['order_id'], seller_id=seller_id) }}" method="POST" onsubmit="return markAsShipped(event);">
+                            <input type="hidden" name="order_id" value="{{ order['order_id'] }}">
+                            <button type="submit" class="mark_shipped_btn">Mark as Shipped</button>
+                        </form>
+                        {% elif order['status'] == 'Completed' %}
+                                <div class="ratezz">
+                                    <input type="hidden" name="order_id" value="{{ order['order_id'] }}">
+                                    <i class='bx bxs-star'></i>
+                                    <p class="ratinglol">
+                                        {% if order['feedback_rating'] %}
+                                            {{ order['feedback_rating'] }}/5
+                                        {% else %}
+                                            No rating yet
+                                        {% endif %}
+                                    </p>
+                                    <button type="button" class="view_r8">View Rating</button>
+                                </div>
+                            {% endif %}
+                        <form id="cancel-form-{{ order['order_id'] }}">
+                            <input type="hidden" name="order_id" value="{{ order['order_id'] }}">
+                            <button type="button" class="cancel_btn" onclick="showCancelModal(this)">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <p class="empty_orders">No orders yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div class="cancelModal" id="cancelModal" style="display: none;">
+        <div class="canmodcont">
+            <span class="closecanmod" onclick="hideCancelModal()">&times;</span>
+            <p class="canwhat">Order ID: <span id="cancelOrderId"></span></p>
+            <p class="rizzz">Reason for Cancellation:</p>
+            <select name="canreason" id="canreason" class="canreason" required>
+                <option value="" disabled selected>Select a reason</option>
+                <option value="Out of stock">Out of stock</option>
+                <option value="Logistical issues">Logistical issues</option>
+                <option value="Order processing error">Order processing error</option>
+            </select>
+            <button type="button" class="canbutton" onclick="confirmCancel()">Confirm</button>
+        </div>
+    </div>
+
+    <div id="ratingModal" class="rmodal">
+        <div class="modal-content">
+            <h5>Order Rating</h5>
+            <button class="modal-close">&times;</button>
+            <p><strong>Rating:</strong> <span id="ratingValue"></span>/5<i class='bx bxs-star'></i></p>
+            <p><strong>Review:</strong><br><span id="reviewText"></span></p>
+        </div>
+    </div>
+
+    <section class="contacts">
+        <div class="contact-info">
+            <div class="first-info">
+                <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+                <p>2023 by Kidmart. <br> A Kidmart Enterprise, Company </p>
+            </div>
+            <div class="second-info">
+                <h4>"Everything Kids Want, Everything Parents Need."</h4>
+                <p>At KidMart, we understand that raising kids is a 24/7 job, and we're here to support you every step of the way. From the first moments of infancy through the teenage years, we provide a  carefully selected range of products that cater to your child's needs and your parenting goals.</p>
+            </div>
+            <div class="third-info">    
+                <h2>Contact Us</h2>
+                <p>Phone: 0900 000 0000</p>
+                <p>Email: info@KidMart.com</p>
+                <p>Kidmart <br> PO Box 1232 <br> Manila, PH. 1002</p>
+            </div>
+            <div class="fourth-info">
+                <h2>Follow Us On</h2>
+                <div class="social-icon">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-instagram' ></i></a>
+                    <a href="#"><i class='bx bxl-twitter' ></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="end-text">
+        <p>© Copyright 2024. KidMart Enterprise Co. All Rights reserved.</p>
+    </div>
+
+    <script>
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            document.getElementById('ratingModal').style.display = 'none';
+        });
+        
+        function confirmLogout() {
+            return confirm("Are you sure you want to log out?");
+        }
+        
+        document.querySelector('.person_icon').addEventListener('click', function(event) {
+            event.preventDefault();
+            const profileDetails = document.getElementById('profileDetails');
+            profileDetails.style.display = profileDetails.style.display === 'block' ? 'none' : 'block';
+        });
+
+
+        function getSellerId() {
+            const sellerIdElement = document.querySelector('p[name="seller_id"]');
+            return sellerIdElement ? sellerIdElement.innerText : null;
+        }
+
+        let seller_id = getSellerId();
+
+        function confirmApprove() { 
+            return confirm("Are you sure you want to approve this order?");
+        }
+
+        function approveOrder(event) {
+            console.log("approveOrder function triggered");
+
+            if (!confirmApprove()) {
+                return false;
+            }
+
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Approve response:", data);
+                if (data.status === 'success') {
+                    alert(data.message);
+                    loadOrders();
+                } else {
+                    alert('Failed to approve the order. Please try again.');
+                }
+            })
+            .catch(error => {
+                alert('An error occurred while approving the order.');
+            });
+        }
+
+        function showCancelModal(button) {
+            const form = button.closest('form');
+            const orderId = form.querySelector('input[name="order_id"]').value;
+
+            const cancelModal = document.getElementById('cancelModal');
+            const cancelOrderId = document.getElementById('cancelOrderId');
+            cancelOrderId.textContent = orderId;
+            cancelModal.dataset.orderId = orderId;
+            cancelModal.style.display = 'block';
+        }
+
+        function hideCancelModal() {
+            const cancelModal = document.getElementById('cancelModal');
+            cancelModal.style.display = 'none';
+        }
+
+        function confirmCancel() {
+            const cancelModal = document.getElementById('cancelModal');
+            const orderId = cancelModal.dataset.orderId;
+            const reason = document.getElementById('canreason').value;
+
+            if (!reason) {
+                alert('Please select a reason for cancellation.');
+                return;
+            }
+
+            fetch(`/cancel-order/${orderId}/${seller_id}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reason })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    hideCancelModal();
+                    alert(data.message);
+                    loadOrders();
+                } else {
+                    alert('Failed to cancel the order. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while canceling the order.');
+            });
+        }
+
+
+        function loadOrders(status = 'To Approve') {
+            fetch(`/view-orders/${seller_id}/filter`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const orders = data.orders;
+                const orderContainer = document.getElementById('order-container');
+                orderContainer.innerHTML = '';
+
+                orders.forEach(order => {
+                    const orderCard = document.createElement('div');
+                    orderCard.classList.add('order-card');
+                    orderCard.innerHTML = `
+                        <div class="labelzzss">
+                            <p class="prodets">Product Details</p>
+                            <p class="unit_lbl">Unit Price</p>
+                            <p class="qty_lbl">Quantity</p>
+                            <p class="total_lbl">Total</p>
+                        </div>
+                        <div class="order-details">
+                            ${order.items.map(item => `
+                                <div class="order-item">
+                                    <div class="item-container">
+                                        ${item.pimage ? `<img src="data:image/jpeg;base64,${item.pimage}" alt="${item.ptitle}" class="order-image">` : '<p>No Image Available</p>'}
+                                        <div class="item-info">
+                                            <h2 class="order-name">${item.ptitle}</h2>
+                                            <p class="order-variation">${item.variation}</p>
+                                        </div>
+                                    </div>
+                                    <div class="price_qty">
+                                        <p class="order_prod_price">₱${item.price}</p>
+                                        <p class="order-qty">x${item.quantity}</p>
+                                        <p class="prod_total">₱${item.price * item.quantity}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            <div class="border-line"></div>
+                        </div>                                     
+
+                        <div class="order-infos">
+                            <div class="buyer_info">
+                                <h5 class="ship_to">Ship To</h5>
+                                <input type="hidden" class="buyer_id" value="${order.buyer_id}">
+                                <p class="address_name"><span>Buyer Name:</span> ${order.buyer_name}</p>
+                                <p class="buyer_address"><span>Contact:</span> (+63) ${order.contact_number}</p>
+                                <p class="shipping_address"><span>Address:</span><br>${order.shipping_address}</p>
+                            </div>                                            
+
+                            <div class="shipping_dets">
+                                <h5 class="datez">Shipping Details</h5>
+                                <p class="order_date"><span>Purchase Date:</span> ${order.order_datetime || 'N/A'}</p>
+                                <p class="ship_date"><span>Shipment Date:</span> ${order.order_ship_datetime || 'N/A'}</p>
+                                <p class="delivered_date"><span>Delivered:</span> ${order.order_delivered_datetime || 'N/A'}</p>
+                            </div>
+
+                            <div class="order_sum">
+                                <h5 class="summary">Order Summary</h5>
+                                <div class="oid">
+                                    <p class="oidz">Order ID: &nbsp; ${order.order_id}</p>
+                                </div>
+                                <div class="merch_subtotal">
+                                    <p class="merch">Merchandise Subtotal</p>
+                                    <p class="merch_price">₱${order.order_total - order.shipping_fee}</p>
+                                </div>
+                                <div class="shippingfee">
+                                    <p class="sf">Shipping Subtotal</p>
+                                    <p class="sf_price">₱${order.shipping_fee}</p>
+                                </div>
+                                <div class="grandtotal">
+                                    <p class="lahatan">Total Payment</p>
+                                    <p class="lahatan_price">₱${order.order_total}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons2" id="action-buttons-${order.order_id}">
+                            <p class="parcel_loc start"><span>Status:</span> ${order.parcel_loc}</p>
+
+                            ${order.status === 'To Approve' ? `
+                                <form id="approve-form-${order.order_id}" action="/approve-order/${order.order_id}/${seller_id}" method="POST" onsubmit="return approveOrder(event);">
+                                    <input type="hidden" name="order_id" value="${order.order_id}">
+                                    <button type="submit" class="approve_order_btn">Approve</button>
+                                </form>
+                                <form id="cancel-form-${order.order_id}">
+                                    <input type="hidden" name="order_id" value="${order.order_id}">
+                                    <button type="button" class="cancel_btn" onclick="showCancelModal(this)">Cancel</button>
+                                </form>
+                            ` : ''}
+
+                            ${order.status === 'To Ship' ? `
+                                <form id="ship-form-${order.order_id}" action="/mark-as-shipped/${order.order_id}/${seller_id}" method="POST" onsubmit="return markAsShipped(event);">
+                                    <input type="hidden" name="order_id" value="${order.order_id}">
+                                    <button type="submit" class="mark_shipped_btn">Mark as Shipped</button>
+                                </form>
+                                <form id="cancel-form-${order.order_id}">
+                                    <input type="hidden" name="order_id" value="${order.order_id}">
+                                    <button type="button" class="cancel_btn" onclick="showCancelModal(this)">Cancel</button>
+                                </form>
+                            ` : ''}
+
+                            ${order.status === 'Completed' ? `
+                                <div class="ratezz"> 
+                                    <input type="hidden" name="order_id" value="${order.order_id}">
+                                    <i class='bx bxs-star'></i>
+                                    <p class="ratinglol">
+                                        ${order.feedback_rating != null ? `${order.feedback_rating}/5` : 'No rating yet'}
+                                    </p>
+                                    ${order.feedback_rating != null ? `<button type="button" class="view_r8" onclick="viewRating(${order.order_id})">View Rating</button>` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    orderContainer.appendChild(orderCard);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading orders:', error);
+            });
+        }
+
+        function confirmStatusChange(orderId) {
+            const dropdown = document.getElementById(`drpdwn-${orderId}`);
+            const selectedStatus = dropdown.value;
+
+            fetch(`/update-order-status/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: selectedStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                    loadOrders('To Receive');
+                } else {
+                    alert('Failed to update order status. Please try again.');
+                }
+            })
+            .catch(error => console.error('Error updating order status:', error));
+        }
+
+
+        document.getElementById('filter-form').onsubmit = function(event) {
+            event.preventDefault();
+            const sellerId = getSellerId();
+            loadOrders(sellerId);
+        };
+
+
+        function filterOrders(status) {
+            const userId = "{{ seller_id }}";
+            fetch(`/view-orders/${userId}/filter`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                updateOrderDisplay(data.orders);
+
+                document.querySelectorAll('.action-buttons2').forEach(buttonContainer => {
+                    const approveBtn = buttonContainer.querySelector('.approve_order_btn');
+                    const markShippedBtn = buttonContainer.querySelector('.mark_shipped_btn');
+                    if (status === 'To Ship') {
+                        if (approveBtn) approveBtn.style.display = 'none';
+                        if (markShippedBtn) markShippedBtn.style.display = 'block';
+                    } else if (status === 'To Approve') {
+                        if (approveBtn) approveBtn.style.display = 'block';
+                        if (markShippedBtn) markShippedBtn.style.display = 'none';
+                    }
+                });
+
+                const cancelButtons = document.querySelectorAll('.cancel_btn');
+                if (status === 'Cancelled') {
+                    cancelButtons.forEach(button => {
+                        button.disabled = true;
+                        button.style.backgroundColor = '#ff1c1c';
+                        button.style.color = '#eee';
+                        button.style.cursor = 'not-allowed';
+                        button.textContent = 'Cancelled';
+                        button.style.padding = '8px 35px';
+                    });
+                } else if (status === 'To Receive') {
+                    cancelButtons.forEach(button => {
+                        button.style.display = 'none';
+                    });
+                } else {
+                    cancelButtons.forEach(button => {
+                        button.disabled = false;
+                        button.style.backgroundColor = '';
+                        button.style.color = '';
+                        button.style.cursor = 'pointer';
+                    });
+                }
+            })
+            .catch(error => console.error('Error fetching order data:', error));
+        }
+
+        function markAsShipped(event) {
+            event.preventDefault();
+            const form = event.target;
+            const orderId = form.querySelector('input[name="order_id"]').value;
+
+            // Fetch approved couriers
+            fetch('/get-approved-couriers')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const couriers = data.couriers;
+                        
+                        // Create courier selection modal
+                        const modal = document.createElement('div');
+                        modal.className = 'courier-modal';
+                        modal.innerHTML = `
+                            <div class="courier-modal-content">
+                                <span class="close-modal">&times;</span>
+                                <h3>Select Courier</h3>
+                                <select id="courier-select" class="courier-select">
+                                    <option value="">Select a courier</option>
+                                    ${couriers.map(courier => `
+                                        <option value="${courier.ID}">${courier.name} (${courier.number})</option>
+                                    `).join('')}
+                                </select>
+                                <button id="confirm-ship" class="confirm-ship-btn">Confirm Shipment</button>
+                            </div>
+                        `;
+
+                        document.body.appendChild(modal);
+
+                        // Close modal functionality
+                        modal.querySelector('.close-modal').onclick = function() {
+                            modal.remove();
+                        };
+
+                        // Confirm shipment
+                        modal.querySelector('#confirm-ship').onclick = function() {
+                            const courierId = document.getElementById('courier-select').value;
+                            if (!courierId) {
+                                alert('Please select a courier');
+                                return;
+                            }
+
+                            const formData = new FormData();
+                            formData.append('courier_id', courierId);
+
+                            fetch(form.action, {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    alert(data.message);
+                                    modal.remove();
+                                    loadOrders('To Ship');
+                                } else {
+                                    alert(data.message || 'Failed to mark the order as shipped. Please try again.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error in markAsShipped:', error);
+                                alert('An error occurred while updating the order.');
+                            });
+                        };
+                    } else {
+                        alert('Failed to fetch courier list. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching couriers:', error);
+                    alert('An error occurred while fetching courier list.');
+                });
+        }
+
+        // Add CSS for the courier selection modal
+        const style = document.createElement('style');
+        style.textContent = `
+            .courier-modal {
+                display: block;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+            }
+
+            .courier-modal-content {
+                background-color: #fefefe;
+                margin: 15% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+                max-width: 500px;
+                border-radius: 8px;
+            }
+
+            .close-modal {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .close-modal:hover {
+                color: black;
+            }
+
+            .courier-select {
+                width: 100%;
+                padding: 8px;
+                margin: 10px 0;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            .confirm-ship-btn {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .confirm-ship-btn:hover {
+                background-color: #45a049;
+            }
+        `;
+        document.head.appendChild(style);
+
+        function updateOrderDisplay(orders) {
+            const orderContainer = document.querySelector('.maincontent2');
+            const existingOrders = orderContainer.querySelectorAll('.order-card');
+
+            existingOrders.forEach(orderCard => orderCard.remove());
+    
+            const noOrdersMessage = orderContainer.querySelector('.empty_orders');
+            if (noOrdersMessage) {
+                noOrdersMessage.remove(); 
+            }
+
+            if (orders.length === 0) {
+                const message = document.createElement('p');
+                message.classList.add('empty_orders');
+                message.textContent = 'No Orders Yet';
+                orderContainer.appendChild(message);
+                return;
+            }
+
+            orders.forEach(order => {
+                const orderCard = document.createElement('div');
+                orderCard.classList.add('order-card');
+                
+                orderCard.innerHTML = `
+                    <div class="labelzzss">
+                        <p class="prodets">Product Details</p>
+                        <p class="unit_lbl">Unit Price</p>
+                        <p class="qty_lbl">Quantity</p>
+                        <p class="total_lbl">Total</p>
+                    </div>
+                    <div class="order-details">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <div class="item-container">
+                                    ${item.pimage ? `<img src="data:image/jpeg;base64,${item.pimage}" alt="${item.ptitle}" class="order-image">` : '<p>No Image Available</p>'}
+                                    <div class="item-info">
+                                        <h2 class="order-name">${item.ptitle}</h2>
+                                        <p class="order-variation">${item.variation}</p>
+                                    </div>
+                                </div>
+                                <div class="price_qty">
+                                    <p class="order_prod_price">₱${item.price}</p>
+                                    <p class="order-qty">x${item.quantity}</p>
+                                    <p class="prod_total">₱${item.price * item.quantity}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                        <div class="border-line"></div>
+                    </div>                                     
+
+                    <div class="order-infos">
+                        <div class="buyer_info">
+                            <h5 class="ship_to">Ship To</h5>
+                            <input type="hidden" class="buyer_id" value="${order.buyer_id}">
+                            <p class="address_name"><span>Buyer Name:</span> ${order.buyer_name}</p>
+                            <p class="buyer_address"><span>Contact:</span> (+63) ${order.contact_number}</p>
+                            <p class="shipping_address"><span>Address:</span><br>${order.shipping_address}</p>
+                        </div>                                            
+
+                        <div class="shipping_dets">
+                            <h5 class="datez">Shipping Details</h5>
+                            <p class="order_date"><span>Purchase Date:</span> ${order.order_datetime || 'N/A'}</p>
+                            <p class="ship_date"><span>Shipment Date:</span> ${order.order_ship_datetime || 'N/A'}</p>
+                            <p class="delivered_date"><span>Delivered:</span> ${order.order_delivered_datetime || 'N/A'}</p>
+                        </div>
+
+                        <div class="order_sum">
+                            <h5 class="summary">Order Summary</h5>
+                            <div class="oid">
+                                <p class="oidz">Order ID: &nbsp; ${order.order_id}</p>
+                            </div>
+                            <div class="merch_subtotal">
+                                <p class="merch">Merchandise Subtotal</p>
+                                <p class="merch_price">₱${order.order_total - order.shipping_fee}</p>
+                            </div>
+                            <div class="shippingfee">
+                                <p class="sf">Shipping Subtotal</p>
+                                <p class="sf_price">₱${order.shipping_fee}</p>
+                            </div>
+                            <div class="grandtotal">
+                                <p class="lahatan">Total Payment</p>
+                                <p class="lahatan_price">₱${order.order_total}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons2" id="action-buttons-${order.order_id}">
+                        <p class="parcel_loc start"><span>Status:</span> ${order.parcel_loc}</p>
+
+                        ${order.status === 'To Approve' ? `
+                            <form id="approve-form-${order.order_id}" action="/approve-order/${order.order_id}/${seller_id}" method="POST" onsubmit="return approveOrder(event);">
+                                <input type="hidden" name="order_id" value="${order.order_id}">
+                                <button type="submit" class="approve_order_btn">Approve</button>
+                            </form>
+                            <form id="cancel-form-${order.order_id}">
+                                <input type="hidden" name="order_id" value="${order.order_id}">
+                                <button type="button" class="cancel_btn" onclick="showCancelModal(this)">Cancel</button>
+                            </form>
+                        ` : ''}
+
+                        ${order.status === 'To Ship' ? `
+                            <form id="ship-form-${order.order_id}" action="/mark-as-shipped/${order.order_id}/${seller_id}" method="POST" onsubmit="return markAsShipped(event);">
+                                <input type="hidden" name="order_id" value="${order.order_id}">
+                                <button type="submit" class="mark_shipped_btn">Mark as Shipped</button>
+                            </form>
+                            <form id="cancel-form-${order.order_id}">
+                                <input type="hidden" name="order_id" value="${order.order_id}">
+                                <button type="button" class="cancel_btn" onclick="showCancelModal(this)">Cancel</button>
+                            </form>
+                        ` : ''}
+
+                        ${order.status === 'Completed' ? `
+                            <div class="ratezz"> 
+                                <input type="hidden" name="order_id" value="${order.order_id}">
+                                <i class='bx bxs-star'></i>
+                                <p class="ratinglol">
+                                    ${order.feedback_rating != null ? `${order.feedback_rating}/5` : 'No rating yet'}
+                                </p>
+                                ${order.feedback_rating != null ? `<button type="button" class="view_r8" onclick="viewRating(${order.order_id})">View Rating</button>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                orderContainer.appendChild(orderCard);
+            });
+        }
+
+
+        function viewRating(order_id) {
+            fetch(`/get-review/${order_id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('ratingValue').innerText = data.review.feedback_rating;
+                        document.getElementById('reviewText').innerText = data.review.feedback_review;
+
+                        document.getElementById('ratingModal').style.display = 'block';
+                    } else {
+                        alert("No review found for this order.");
+                    }
+                })
+                .catch(error => console.error('Error fetching review:', error));
+        }
+
+    </script>
+</body>
+</html>

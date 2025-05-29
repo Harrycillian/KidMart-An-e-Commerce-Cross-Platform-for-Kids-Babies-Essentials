@@ -1,0 +1,1306 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+
+body {
+    background: #f2f2f2;
+}
+
+@font-face {
+    font-family: League;
+    src: url(fonts/League/LeagueSpartan-Regular.ttf);
+}
+
+@font-face {
+    font-family: LeagueSemi;
+    src: url(fonts/League/LeagueSpartan-SemiBold.ttf);
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: PoppinsItalic;
+    src: url(fonts/Poppins/Poppins-Italic.ttf);
+}
+
+@font-face {
+    font-family: PoppinsMed;
+    src: url(fonts/Poppins/Poppins-Medium.ttf);
+}
+
+@font-face {
+    font-family: PoppinsSemi;
+    src: url(fonts/Poppins/Poppins-SemiBold.ttf);
+}
+
+header{
+    background-color: #FDFDFD;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Logo img{
+    max-width: 115px;
+    height: auto;
+}
+
+.header-text {
+    display: flex;
+    position: absolute;
+    font-family: PoppinsItalic;
+    font-size: 27px;
+    color: #2C2C2C;
+    padding-left: 150px;
+}
+
+.navicons {
+    display: flex;
+    justify-content: center;
+    gap: 13px;
+}
+.navicons a {
+    width: auto;
+    height: 26px;
+}
+.msg_icon {
+    margin-top: -4px;
+    margin-right: -4px;
+}
+.msg_icon:hover img {
+    content: url(images/msg_hover.png);
+}
+.notif_icon:hover img {
+    content: url(images/notif_hover.png);
+}
+.orders_icon:hover img {
+    content: url(images/orders_hover.png);
+}
+.person_icon:hover img {
+    content: url(images/person_hover.png);
+}
+
+.notifs_container {
+    position: absolute;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    top: 73px;
+    right: 145px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    padding: 12px 20px;
+    overflow-y: auto;
+    width: 280px;
+    max-height: 450px;
+}
+.nttl {
+    color: #333;
+    font-family: PoppinsMed;
+    font-size: 14px;
+}
+.notif_card {
+    border-bottom: 1px solid #dbdbdb;
+    padding: 5px 0;
+}
+.titcon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ntitle {
+    font-family: PoppinsMed;
+    font-size: 11px;
+    color: #74b2e4;
+    text-align: left;
+    width: auto;
+    padding-left: 8px;
+}
+.ndate {
+    font-family: Poppins;
+    font-size: 9px;
+    color: #a3a3a3;
+    text-align: right;
+    width: auto;
+    padding-right: 8px;
+}
+.ntext {
+    font-family: Poppins;
+    font-size: 10px;
+    color: #333;
+    text-align: left;
+    width: 100%;
+}
+.ntitle, .ntext {
+    padding-left: 8px;
+}
+
+#profileDetails {
+    background-color: #f9f9f9;
+    font-family: Poppins;
+    font-size: 11px;
+    border: 1px solid #c3c3c3;
+    width: 130px;
+    position: absolute;
+    top: 72px;
+    right: 68px;
+    z-index: 2000;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.logout_btn {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px 0;
+    padding-left: 25px;
+    color: #333;
+    width: 100%;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.logout_btn:hover {
+    background-color: #e0e0e0;
+}
+
+.msgModal {
+    position: absolute;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    top: 73px;
+    right: 165px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    padding: 7px 15px;
+    overflow-y: auto;
+    width: 280px;
+    max-height: 450px;
+}
+.msghead {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+}
+.mzgz {
+    font-family: PoppinsMed;
+    font-size: 14px;
+    color: #333;
+}
+.newchat {
+    padding: 4px 10px;
+    font-family: Poppins;
+    font-size: 10px;
+    border: 1px solid #74b2e4;
+    border-radius: 4px;
+    color: #74b2e4;
+}
+.newchat:hover {
+    color: #eee;
+    background-color: #74b2e4;
+    transition: 0.3s;
+}
+.message {
+    display: block;
+    border-bottom: 1px solid #dbdbdb;
+    padding: 6px 0;
+}
+.message:hover {
+    background-color: #eee;
+    transition: 0.3s;
+}
+.msgmsg {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mseller {
+    font-family: PoppinsMed;
+    font-size: 11px;
+    color: #74b2e4;
+    text-align: left;
+    width: auto;
+    padding-left: 8px;
+}
+.mdate {
+    font-family: Poppins;
+    font-size: 9px;
+    color: #a3a3a3;
+    text-align: right;
+    width: auto;
+    padding-right: 8px;
+}
+.mtext {
+    font-family: Poppins;
+    font-size: 10px;
+    color: #333;
+    text-align: left;
+    padding-left: 14px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.messageModal {
+    position: fixed;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    bottom: 0;
+    right: 130px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    width: 280px;
+    height: 320px;
+}
+.msgframe {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.messagehead {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    z-index: 3000;
+    padding: 8px 20px;
+    background-color: #74b2e4;
+    position: relative;
+}
+.chatmate {
+    font-family: PoppinsMed;
+    font-size: 14px;
+    color: #eee;
+}
+.closemsg {
+    position: absolute;
+    top: 4px;
+    right: 15px;
+    border: none;
+    font-size: 24px;
+    font-weight: 600;
+    color: #eee;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+.closemsg:hover {
+    color: red;
+}
+.chatbox {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    max-height: 70%;
+}
+.sender-name {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #666;
+}
+.seller-bubble, .buyer-bubble {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.chat-bubble {
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 14px;
+    font-family: Poppins;
+    font-size: 11px;
+    word-wrap: break-word;
+}
+.blue-bubble {
+    background-color: #7fb4ec;
+    color: #eee;
+    align-self: flex-start;
+}
+.white-bubble {
+    background-color: #ffffff;
+    color: #444;
+    border: 1px solid #ccc;
+    align-self: flex-end;
+}
+.chatsec {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.chatsec .bchat {
+    flex: 1;
+    padding: 8px;
+    font-size: 11px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+.chatsec a img {
+    width: 30px;
+    height: 30px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+.bchat {
+    font-family: Poppins;
+    padding: 4px 0;
+    margin-left: 10px;
+    padding-left: 18px;
+}
+.send_chat {
+    margin-right: 7px;
+}
+.send_chat:hover img {
+    content: url(images/send_hover.png);
+}
+
+
+.salesrep { 
+    margin-top: 60px;
+    margin-bottom: 20px;
+    padding: 5% 10%;
+}
+.salesreport {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.sales_radio {
+    display: flex;
+    align-items: center;
+    padding-left: 85px;
+}
+.sales_radio-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.orderslbl, .productslbl {
+    font-family: Poppins;
+    font-size: 14px;
+    color: #333;
+    padding-left: 10px;
+    margin-right: 30px;
+    cursor: pointer;
+    font-weight: 400;
+}
+.filterby, .datef {
+    font-family: PoppinsMed;
+    font-size: 15px;
+    color: #333;
+    margin-right: 20px;
+}
+.filterby {
+    margin-right: 48px;
+}
+
+.filterdate {
+    display: flex;
+    align-items: center;
+    margin-top: 18px;
+    margin-bottom: 28px;
+    padding-left: 85px;
+}
+
+.date_inputs {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+.date_from, .date_to {
+    margin-right: 8px;
+    padding: 8px 10px;
+    width: 120px;
+    font-family: Poppins;
+    font-size: 11.5px;
+    color: #333;
+    border: none;
+    border: 1px solid #838383;
+}
+.line {
+    margin: 0 5px;
+    margin-right: 12px;
+    font-size: 26px;
+    color: #555;
+    font-weight: 0;
+}
+.ok_btn {
+    padding: 7px 15px; 
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    background-color: #333;
+    color: #eee;
+    font-family: PoppinsMed;
+    border-radius: 5px;
+}
+.ok_btn:hover {
+    background-color: #555;
+}
+
+
+.srep {
+    font-family: PoppinsMed;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+    align-self: center;
+}
+.sales_table thead th {
+    font-family: PoppinsMed;
+    background-color: white;
+    color: #333;
+    font-size: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.sales_table {
+    align-self: center;
+    width: 100%;
+    max-height: 380px;
+    overflow-y: auto;
+    border-radius: 8px;
+    scrollbar-color: #a9a9a9 white;
+}
+.sales_table table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+}
+.sales_table th, .sales_table td {
+    padding: 10px 15px;
+    text-align: left;
+    width: auto;
+}
+td {
+    font-family: Poppins;
+    color: #2C2C2C;
+    font-size: 12px;
+    border-top: 0.4px solid #ddd;
+}
+.admh, .adm {
+    padding-right: 15px;
+    text-align: right;
+}
+
+
+.printlol {
+    padding: 0 2%;
+    width: 100%;
+    display: flex;
+}
+.printsales {
+    margin-left: auto;
+    margin-top: 20px;
+    padding: 10px 55px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-family: PoppinsSemi;
+    font-size: 14px;
+    color: #333;
+    background: transparent;
+    cursor: pointer;
+}
+.printsales:hover {
+    color: #eee;
+    background-color: #333;
+    transition: 0.5s;
+}
+
+@media print {
+    .head {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+    .printlogo {
+        width: 60px;
+        height: auto;
+    }
+    .headtitle {
+        font-family: Arial;
+        font-weight: 500;
+        font-size: 20px;
+    }
+
+    body, .salesrep {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-size: 11px;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: 400;
+    }
+    .datez {
+        margin-bottom: 15px;
+    }
+
+    .salesreport {
+        padding: 20px;
+    }
+
+    .srep {
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .sales_table {
+        width: 100%;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .sales_table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .sales_table th, .sales_table td {
+        font-size: 11px;
+        padding: 6px 8px;
+        text-align: left;
+        border: 1px solid #000;
+    }
+
+    .order_totals {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        width: 100%;
+        padding: 0 5%;
+        margin-top: 20px;
+    }
+
+    .ttl {
+        grid-column: 1 / span 1;
+        font-size: 11px;
+        font-weight: bold;
+        text-align: left;
+        padding-left: 10px;
+    }
+
+    .total_orders {
+        grid-column: 2 / span 1;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .total_price {
+        grid-column: 6 / span 1;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .total_profit {
+        grid-column: 7 / span 1;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .total_com {
+        grid-column: 8 / span 1;
+        font-size: 11px;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .sales_radio,
+    .filterdate,
+    .printsales,
+    .ok_btn {
+        display: none;
+    }
+
+    .print-report {
+        flex: 1;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding: 10px 20px;
+        border-top: 1px solid #000;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+    }
+
+    .footer .left {
+        text-align: left;
+        line-height: 1.5;
+    }
+
+    .footer .left h5 {
+        margin: 0;
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    .footer .left p {
+        margin: 0;
+        font-size: 11px;
+        color: #333;
+    }
+
+    .footer .right {
+        text-align: center;
+    }
+
+    .footer .right p {
+        margin: 0;
+        margin-bottom: 5px;
+        font-size: 11px;
+        font-weight: normal;
+    }
+
+    .footer .right img {
+        width: 100px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+
+.maincontents input[type="search"],
+.maincontents select[name="categoriez"] {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.prod_head {
+    margin-top: 70px;
+    text-align: center;
+    font-family: PoppinsSemi;
+    font-size: 30px;
+    color: #333;
+}
+
+.maincontents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 15px;
+}
+
+.maincontents input[type="search"] {
+    width: 34%;
+    padding: 12px;
+    padding-left: 30px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    font-family: Poppins;
+    font-size: 12px;
+}
+
+.categoriesandbutton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.categoriesandbutton select[name="categoriez"] {
+    width: 30%;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+    display: inline-block;
+    font-family: Poppins;
+    font-size: 14px;
+}
+.categoriesandbutton option {
+    font-family: Poppins;
+    font-size: 14px;
+}
+
+.newprods-btn {
+    flex-shrink: 0;
+    background-color: white;
+    color: #74A0F5;
+    border: 1px solid #74A0F5;
+    padding: 10px 50px;
+    font-family: PoppinsMed;
+    font-size: 14px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+.newprods-btn:hover {
+    background: #74A0F5;
+    color: #eee;
+    transition: 0.5s;
+}
+
+.product-container option {
+    color: #2C2C2C;
+    font-family: Poppins;
+    font-size: 14px;
+}
+
+section{
+    padding: 5% 0;
+}
+
+.frame1, .frame2 {
+    width: 100%;
+    padding: 20px 11%;
+    background: #f4f4f4;
+}
+
+.product-container { 
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+    align-items: start;
+    justify-items: center;
+}
+
+.product-card {
+    background: #FFFFFF;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    box-shadow: 0 0 12px rgba(93, 93, 93, 0.1);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    height: 374px;
+    max-height: 374px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #d6d6d6 white;
+    position: relative;
+}
+
+.product-images {
+    width: 150px;
+    height: 150px;
+}
+
+.product-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.prod-ctgry {
+    font-size: 10px;
+    font-family: Poppins;
+    color: #616161;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.prod-title {
+    margin-top: 0;
+    text-align: center;
+    font-family: PoppinsSemi;
+    font-size: 14px;
+    color: #333;
+}
+
+.solddd {
+    margin: 5px 0;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 12px;
+    color: #333;
+}
+
+.pdesc {
+    display: none;
+    margin-top: 0;
+    margin-bottom: 8px;
+    text-align: justify;
+    width: 80%;
+    font-family: Arial;
+    letter-spacing: 0.6px;
+    line-height: 1.1;
+    font-size: 12px;
+    color: #444;
+}
+
+.pvars {
+    text-align: center;
+    font-weight: bold;
+    font-family: Poppins;
+    font-size: 13px;
+    margin-top: 15px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+ul li {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.variation-name {
+    font-family: Poppins;
+    font-weight: bold;
+    color: #2C2C2C;
+    font-size: 12px;
+}
+.variation-price {
+    color: #2C2C2C;
+    margin-left: 30px;
+    font-family: Poppins;
+    font-size: 12px;
+}
+.variation-stocks {
+    color: #2C2C2C;
+    margin-left: 30px;
+    font-family: Poppins;
+    font-size: 12px;
+}
+
+.action-buttons {
+    position: absolute;
+    height: 35px;
+    padding: 0 8px;
+    bottom: 6px;
+    color: rgba(255, 255, 255, 0.3);
+}
+.edit_prod_btn {
+    padding: 7px 43px;
+    font-family: PoppinsMed;
+    font-size: 12px;
+    border-radius: 5px;
+    border: 1px solid #74A0F5;
+    color: #74A0F5;
+    cursor: pointer;
+    margin: 0 4px;
+    background-color: white;
+}
+.edit_prod_btn:hover {
+    background-color: #74A0F5;
+    color: #eee;
+    transition: 0.5s;
+}
+.delete_prod_btn {
+    padding: 7px 30px;
+    font-family: PoppinsMed;
+    font-size: 12px;
+    border-radius: 5px;
+    border: 1px solid #f45151;
+    color: #f45151;
+    cursor: pointer;
+    margin: 0 4px;
+    background: white;
+}
+.delete_prod_btn:hover {
+    background-color: #f45151;
+    color: #eee;
+    transition: 0.5s;
+}
+
+.no-prods {
+    text-align: center;
+    width: 100%;
+    color: #777;
+}
+
+.AddProdModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 5%;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    border-radius: 5px;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding: 0 25%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    font-family: Poppins;
+    color: #333;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    padding: 10px 5%;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    font-family: Poppins;
+    color: #2C2C2C;
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add_img,
+.add_var {
+    background-color: #333333;
+    padding: 8px 30px;
+    color: #f2f2f2;
+    border-radius: 5px;
+    font-family: Poppins;
+    border: none;
+}
+
+.list_prod {
+    font-family: Poppins;
+    margin-top: 20px;
+    background-color: #333333;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+.add_img:hover,
+.add_var:hover,
+.list_prod:hover {
+    background-color: #69bbff;
+}
+
+#image-inputs,
+#variation-inputs {
+    margin-bottom: 15px;
+}
+
+.variation-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.variation-group input {
+    flex: 1;
+    margin-right: 5px;
+}
+
+.variation-group input:last-child {
+    margin-right: 0; 
+}
+
+
+#editModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    padding: 3% 20%;
+    box-sizing: border-box;
+}
+
+.editmodal-content {
+    position: relative;
+    background-color: #fff;
+    padding: 20px 12%;
+    border-radius: 8px;
+    max-width: 750px;
+    margin: auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 12px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+.editprodh {
+    font-family: PoppinsMed;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+}
+
+#closeModal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+}
+.editmodal-content label {
+    font-family: Poppins;
+    font-size: 13px;
+    color: #333;
+}
+.editmodal-content input,
+.editmodal-content textarea {
+    width: 100%;
+    font-family: Poppins;
+    font-size: 12px;
+    color: #333;
+    padding: 8px 25px;
+}
+
+.thumbnail {
+    width: 70px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#edit-variations {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#edit-variations > div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#edit-variations input[type="text"],
+#edit-variations input[type="number"] {
+    padding: 8px 25px;
+    border-radius: 4px;
+    width: 100%;
+    font-family: Poppins;
+    font-size: 12px;
+    color: #333;
+}
+.removeImg {
+    font-size: 15px;
+    margin: 0;
+    margin-left: -15px;
+    padding: 8px 4px;
+    line-height: 1%;
+    border: none;
+    border-radius: 50px;
+    background-color: #ff1c1c;
+    color: #eee;
+    cursor: pointer;
+}
+.removeImg:hover {
+    background-color: #ff5858;
+    color: #eee;
+}
+.addimgbtn {
+    padding: 6px 25px;
+    border: none;
+    background-color: #444;
+    color: #eee;
+    border-radius: 4px;
+    margin-left: auto;
+    cursor: pointer;
+    font-family: Poppins;
+    font-size: 12px;
+}
+.addimgbtn:hover{
+    background-color: #676767;
+    transition: 0.4s;
+}
+.removeVar {
+    font-size: 19px;
+    padding: 10px 5px;
+    line-height: 0%;
+    border: none;
+    border-radius: 50px;
+    background-color: #ff1c1c;
+    color: #eee;
+    cursor: pointer;
+}
+.removeVar:hover {
+    background-color: #ff5858;
+}
+.addvarbtn {
+    padding: 6px 25px;
+    border: none;
+    background-color: #444;
+    color: #eee;
+    border-radius: 4px;
+    margin-left: auto;
+    cursor: pointer;
+    font-family: Poppins;
+    font-size: 12px;
+}
+.addvarbtn:hover{
+    background-color: #676767;
+    transition: 0.4s;
+}
+.save_btn {
+    margin-top: 12px;
+    margin-bottom: 15px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    font-family: PoppinsMed;
+    font-size: 14px;
+    background-color: #74A0F5;
+    color: #eee;
+    cursor: pointer;
+    border-radius: 7px;
+    border: none;
+}
+.save_btn:hover {
+    background-color: #9fbfff;
+    transition: 0.5s;
+}
+
+.contacts{
+    background-color: #E3EBFF;
+    padding: 5% 10%;
+}
+.contact-info{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, auto));
+    gap: 3rem;
+}
+.first-info img{
+    width: 140px;
+    height: auto;
+}
+.contact-info h2{
+    color: #3179FF;
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.contact-info h4{
+    color: #3179FF;
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+.contact-info p{
+    color: #001F58;
+    font-family: Poppins, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: capitalize;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all .42s;
+}
+.third-info p:hover{
+    color: #49ADFF;
+}
+.social-icon i{
+    color: #3179FF;
+    margin-right: 10px;
+    font-size: 20px;
+    transition: all .42s;
+}
+.social-icon i:hover{
+    transform: scale(1.5);
+}
+.end-text{
+    background-color: #edfff1;
+    text-align: center;
+    padding: 20px;
+}
+.end-text p{
+    color: #111;
+    text-transform: capitalize;
+    font-family: Roboto, sans-serif;
+}

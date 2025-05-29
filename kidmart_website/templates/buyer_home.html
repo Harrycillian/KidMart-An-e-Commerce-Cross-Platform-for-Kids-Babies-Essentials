@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIDMART - Shop for Kids and Babies!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/buyer_home-style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='css/images/LOGO_icon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="#" class="Logo">
+            <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+        </a>
+        <ul class="navmenu">
+            <li><a href="{{ url_for('bcna', user_id=user_id) }}">Baby Clothes & Accessories</a></li>
+            <li><a href="{{ url_for('tg', user_id=user_id) }}">Toys & Games</a></li>
+            <li><a href="{{ url_for('edm', user_id=user_id) }}">Educational Materials</a></li>
+            <li><a href="{{ url_for('sg', user_id=user_id) }}">Stroller & Gear</a></li>
+            <li><a href="{{ url_for('nf', user_id=user_id) }}">Nursery Furniture</a></li>
+            <li><a href="{{ url_for('sfh', user_id=user_id) }}">Safety & Health</a></li>
+        </ul>
+        <div class="navicons">
+            <a href="#" class="searchz" id="searchz"><i class='bx bx-search'></i></a>
+            <div id="search_bar" class="search_bar" style="display: none;">
+                <input type="text" class="search_prod" name="search_prod" placeholder="Search Products..." id="search_prod">
+            </div>
+
+            <a href="#" class="msg_icon" id="msg_icon"><i class="bx bx-message"></i></a>
+            <div id="msgModal" class="msgModal" style="display:none;"> 
+                <div class="msghead">
+                    <p class="mzgz">Messages</p>
+                    <!-- <a href="#" class="newchat" id="newchat">+ New Chat</a> -->
+                    <select name="zeller" style="display:none;">
+                        <option><!-- all seller names --></option>
+                    </select>
+                </div>
+                <p id="user_id" style="display:none;">{{ user_id }}</p>
+                <div class="msgsss">
+                    {% for msg in messages %}
+                    <a href="#" class="message" data-seller-id="{{ msg.seller_id }}">
+                        <div class="msgmsg">
+                            <p class="mseller">{{ msg.seller_name }}</p>
+                            <p class="mdate">{{ msg.last_msg_time }}</p>
+                        </div>
+                        <p class="mtext">{{ msg.last_msg }}</p>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <a href="#" class="notif_icon" id="notif_icon"><i class="bx bx-bell" title="Notifications"></i></a>
+            <div class="notifs_container" id="notifs_container" style="display: none;">
+                <p class="nttl">Notifications</p>
+                {% for notif in notifs %}
+                <div class="notif_card">
+                    <div class="titcon">
+                        <p class="ntitle">{{ notif.bnotif_title }}</p>
+                        <p class="ndate">{{ notif.notif_datetime }}</p>
+                    </div>
+                    <p class="ntext">{{ notif.bnotif_text }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <a href="{{ url_for('shopping_cart', user_id=user_id) }}"><i class='bx bx-cart' id="cart-icon" title="My Cart"></i></a>
+            <a href="#" class="person_icon" id="person_icon"><i class='bx bx-user'></i></a>
+            <div id="dropdown-menu" class="dropdown-menu" style="display: none;">
+                <a href="{{ url_for('buyer_address', user_id=user_id) }}" class="address_btn">My Addresses</a>
+                <a href="{{ url_for('buyer_orders', user_id=user_id) }}" class="orders_btn">My Orders</a>
+                <a href="#" class="msgs_btn">Messages</a>
+                <a href="#" class="myprof">My Profile</a>
+                <a href="{{ url_for('gotologin') }}" class="logout_btn" onclick="return confirmLogout()">Log Out</a>
+            </div>
+            
+            <p name="user_id" style="display:none;">{{ user_id }}</p>
+
+            <button class="bx bx-menu" id="menu-icon" title="Try this by minimizing your browser!"></button>
+        </div>
+    </header>
+
+    <div class="messageModal" id="messageModal" style="display:none;"> 
+        <div class="msgframe">
+            <div class="messagehead">
+                <p class="chatmate">Seller Name</p>
+                <button class="closemsg">&times;</button>
+            </div>
+            <input type="hidden" id="hidden_seller_id" value="">
+            <div class="chatbox"></div>
+            <div class="chatsec">
+                <input type="text" name="bchat" class="bchat" placeholder="Aa">
+                <a href="#" class="send_chat">
+                    <img src="{{ url_for('static', filename='css/images/send_btn.png') }}">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <section class="main-home">
+        <div class="scrolling-banner">
+            <p>Use the voucher code <span>&nbsp; KIDMARTFIRSTBUY &nbsp;</span> to get free shipping on your first purchase!</p>
+        </div>
+
+        <div class="main-text">
+            <h1>Searching For <br> Kiddie Essentials?</h1>
+            <p>There's nothing like KidMart!</p>
+
+            <a class="main-btn">Shop Now <i class='bx bxs-chevron-right'></i></a>
+        </div>
+    </section>
+
+    <section class="trending-products" id="trending">
+        <div class="center-text">
+            <h2>Shop For The Little Ones <span>With Love!</span></h2>
+        </div>
+        
+        <div class="products" id="product-list">
+            {% for product in products %}
+                <a href="{{ url_for('buyer_prod', user_id=user_id, pid=product['pid']) }}" class="row">
+                    <p class="hidden_pid" style="display: none;">{{ product['pid'] }}</p>
+                    <img src="data:image/jpeg;base64,{{ product['pimage'] }}" alt="{{ product['ptitle'] }}" class="prod-image">
+                    <div class="rating">
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                    </div>
+                    <div class="price">
+                        <h4>{{ product['ptitle'] }}</h4>
+                        <p>₱{{ product['pprice'] }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>                
+    </section>  
+    
+    <section class="contacts">
+        <div class="contact-info">
+            <div class="first-info">
+                <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+                <p>2023 by Kidmart. <br> A Kidmart Enterprise, Company </p>
+            </div>
+            <div class="second-info">
+                <h4>"Everything Kids Want, Everything Parents Need."</h4>
+                <p>At KidMart, we understand that raising kids is a 24/7 job, and we're here to support you every step of the way. From the first moments of infancy through the teenage years, we provide a  carefully selected range of products that cater to your child’s needs and your parenting goals.</p>
+            </div>
+            <div class="third-info">    
+                <h2>Contact Us</h2>
+                <p>Phone: 0900 000 0000</p>
+                <p>Email: info@KidMart.com</p>
+                <p>Kidmart <br> PO Box 1232 <br> Manila, PH. 1002</p>
+            </div>
+            <div class="fourth-info">
+                <h2>Follow Us On</h2>
+                <div class="social-icon">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-instagram' ></i></a>
+                    <a href="#"><i class='bx bxl-twitter' ></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="end-text">
+        <p>© Copyright 2024. KidMart Enterprise Co. All Rights reserved.</p>
+    </div>
+
+    <script>
+        const header = document.querySelector("header")
+
+        window = addEventListener ("scroll", function(){
+            header.classList.toggle ("sticky", this.window.scrollY > 0);
+        })
+
+        let menu = document.querySelector('#menu-icon');
+        let navmenu = document.querySelector('.navmenu');
+
+        menu.onclick = () => {
+            menu.classList.toggle('bx-x');
+            navmenu.classList.toggle('open');
+        }
+
+
+        document.getElementById('msg_icon').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('msgModal').style.display = 'block';
+        });
+
+        document.querySelectorAll('.message').forEach(message => { 
+            message.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const sellerId = this.dataset.sellerId;
+                const buyerId = document.getElementById('user_id').textContent.trim();
+                const sellerName = this.querySelector('.mseller').textContent;
+
+                document.querySelector('.chatmate').textContent = sellerName;
+                document.getElementById('hidden_seller_id').value = sellerId;
+
+                fetch(`/get_messages?seller_id=${sellerId}&buyer_id=${buyerId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const chatbox = document.querySelector('.chatbox');
+                        chatbox.innerHTML = '';
+
+                        data.messages.forEach(msg => {
+                            const bubbleWrapper = document.createElement('div');
+
+                            if (msg.product_details && msg.product_details.ptitle && msg.product_details.pimage) {
+                                bubbleWrapper.className = 'product-bubble';
+                                const productElement = `
+                                    <div class="product-details">
+                                        <img src="data:image/png;base64,${msg.product_details.pimage}" alt="${msg.product_details.ptitle}" />
+                                        <h4>${msg.product_details.ptitle}</h4>
+                                    </div>
+                                `;
+                                bubbleWrapper.innerHTML = productElement;
+                            } else if (msg.smsg_text) {
+                                bubbleWrapper.className = 'seller-bubble';
+                                const msgElement = document.createElement('div');
+                                msgElement.className = 'chat-bubble blue-bubble';
+                                msgElement.textContent = msg.smsg_text;
+                                bubbleWrapper.appendChild(msgElement);
+                            } else if (msg.bmsg_text) {
+                                bubbleWrapper.className = 'buyer-bubble';
+                                const msgElement = document.createElement('div');
+                                msgElement.className = 'chat-bubble white-bubble';
+                                msgElement.textContent = msg.bmsg_text;
+                                bubbleWrapper.appendChild(msgElement);
+                            }
+
+                            chatbox.appendChild(bubbleWrapper);
+                        });
+
+                        document.getElementById('msgModal').style.display = 'none';
+                        document.getElementById('messageModal').style.display = 'block';
+                    })
+                    .catch(error => console.error('Error fetching messages:', error));
+            });
+        });
+
+        document.querySelector('.closemsg').addEventListener('click', function() {
+            document.getElementById('messageModal').style.display = 'none';
+        });
+
+        document.querySelector('.send_chat').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const bmsgText = document.querySelector('.bchat').value.trim();
+            const sellerId = document.getElementById('hidden_seller_id').value;
+            const buyerId = document.querySelector('[name="user_id"]').textContent.trim();
+
+            if (!bmsgText) {
+                alert('Message cannot be empty');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('buyer_id', buyerId);
+            formData.append('seller_id', sellerId);
+            formData.append('bmsg_text', bmsgText);
+
+            fetch('/send_message', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const chatbox = document.querySelector('.chatbox');
+                    const bubbleWrapper = document.createElement('div');
+                    bubbleWrapper.className = 'buyer-bubble';
+                    const msgElement = document.createElement('div');
+                    msgElement.className = 'chat-bubble white-bubble';
+                    msgElement.textContent = bmsgText;
+                    bubbleWrapper.appendChild(msgElement);
+                    chatbox.appendChild(bubbleWrapper);
+
+                    document.querySelector('.bchat').value = '';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to send the message. Please try again.');
+            });
+        });
+
+
+        document.querySelector('.notif_icon').addEventListener('click', function(event) {
+            event.preventDefault();
+            const profileDetails = document.getElementById('notifs_container');
+            profileDetails.style.display = profileDetails.style.display === 'block' ? 'none' : 'block';
+        });
+
+
+        document.querySelector('.person_icon').addEventListener('click', function(event) {
+            event.preventDefault();
+            const profileDetails = document.getElementById('dropdown-menu');
+            profileDetails.style.display = profileDetails.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.querySelector('.searchz').addEventListener('click', function(event) {
+            event.preventDefault();
+            const profileDetails = document.getElementById('search_bar');
+            profileDetails.style.display = profileDetails.style.display === 'block' ? 'none' : 'block';
+            window.scrollTo({
+                top: 665,
+                behavior: 'smooth'
+            });
+        });
+
+        const userIdUrl = "{{ url_for('buyer_prod', user_id=user_id, pid='') }}";
+
+        document.getElementById('search_prod').addEventListener('input', function() {
+            const searchQuery = this.value;
+
+            fetch('/search-products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ search_query: searchQuery })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const productContainer = document.getElementById('product-list');
+                productContainer.innerHTML = '';
+
+                data.products.forEach(product => {
+                    const productDiv = document.createElement('a');
+                    productDiv.href = `${userIdUrl}${product.pid}`; 
+                    productDiv.classList.add('row');
+
+                    productDiv.innerHTML = `
+                        <p class="hidden_pid" name="pid" style="display: none;">${product.pid}</p>
+                        <img src="data:image/jpeg;base64,${product.pimage}" alt="${product.ptitle}" class="prod-image">
+                        <div class="rating">
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                        </div>
+                        <div class="price">
+                            <h4>${product.ptitle}</h4>
+                            <p>₱${product.pprice}</p>
+                        </div>
+                    `;
+
+                    productContainer.appendChild(productDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error searching products:', error);
+            });
+        });
+
+
+        document.querySelector('.main-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 572,
+                behavior: 'smooth'
+            });
+        });
+
+
+        function confirmLogout() {
+            return confirm("Are you sure you want to log out?");
+        }
+
+    </script>
+</body>
+</html>

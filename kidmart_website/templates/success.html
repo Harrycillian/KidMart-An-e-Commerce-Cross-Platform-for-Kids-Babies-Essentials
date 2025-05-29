@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | KIDMART</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/success-style.css') }}">
+</head>
+<body>
+    <header>
+        <a href="#" class="Logo">
+            <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+        </a>
+        <div class="header-text">Searching For Kiddie Essentials? There’s nothing like KidMart!</div>
+    </header>
+
+    <section class="main">
+        <div class="main-content">
+            <div class="container">
+                <h1>Welcome!</h1>
+                <h2>You are now registered.</h2>
+                <p><strong>Name:</strong> {{ name }}<br>
+                   <strong>Email:</strong> {{ email }}<br>
+                   <strong>Gender:</strong> {{ gender }}<br>
+                   <strong>Country:</strong> {{ country }} {{ number }}</p>
+                <form action="{{ url_for('gotologin') }}" method="GET">
+                    <button type="submit" name="gotologin" id="gotologin">Proceed to Log In</button>
+                </form>         
+            </div>
+        </div>
+    </section>
+
+
+    
+</body>
+</html>

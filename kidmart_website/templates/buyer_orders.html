@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | KIDMART</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/buyer_orders-style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='css/images/LOGO_icon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="#" class="Logo">
+            <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+        </a>
+        <div class="title">My Orders</div>
+        <div class="icons">
+            <a href="{{ url_for('show_buyer_products', user_id=user_id) }}" class="back">
+                <img src="{{ url_for('static', filename='css/images/back_icon.png') }}" title="Back to Home">
+            </a>
+            <!-- <a href="#" class="msg">
+                <img src="{{ url_for('static', filename='css/images/msg_icon.png') }}" title="Messages">
+            </a> -->
+            <input type="hidden" name="user_id" value="{{ user_id }}">
+            <p name="user_id" style="display:none;">{{ user_id }}</p>
+        </div>
+    </header>
+
+    <section class="main2">
+        <div class="maincontent2">
+            <div class="radiosss">
+                <label>
+                    <input type="radio" name="option" value="To Approve" class="radio-input" checked onchange="filterOrders(this.value)">
+                    <span class="radio-label">To Approve</span>
+                </label>
+                <label>
+                    <input type="radio" name="option" value="To Ship" class="radio-input" onchange="filterOrders(this.value)">
+                    <span class="radio-label">To Ship</span>
+                </label>
+                <label>
+                    <input type="radio" name="option" value="To Receive" class="radio-input" onchange="filterOrders(this.value)">
+                    <span class="radio-label">To Receive</span>
+                </label>
+                <label>
+                    <input type="radio" name="option" value="To Rate" class="radio-input" onchange="filterOrders(this.value)">
+                    <span class="radio-label">To Rate</span>
+                </label>
+                <label>
+                    <input type="radio" name="option" value="Completed" class="radio-input" onchange="filterOrders(this.value)">
+                    <span class="radio-label">Completed</span>
+                </label>
+                <label>
+                    <input type="radio" name="option" value="Cancelled" class="radio-input" onchange="filterOrders(this.value)">
+                    <span class="radio-label">Cancelled</span>
+                </label>
+            </div>
+            {% for order in orders %}
+                <div class="order-cards-container">
+                    <div class="order-card">
+                        <div class="labelzzss">
+                            <p class="prodets">Product Details</p>
+                            <p class="unit_lbl">Unit Price</p>
+                            <p class="qty_lbl">Quantity</p>
+                            <p class="total_lbl">Total</p>
+                        </div>
+                        <div class="order-details">
+                            {% for item in order['items'] %}
+                                <div class="order-item">
+                                    <div class="item-container">
+                                        {% if item['pimage'] %}
+                                            <img src="data:image/jpeg;base64,{{ item['pimage'] }}" alt="{{ item['ptitle'] }}" class="order-image">
+                                        {% else %}
+                                            <p>No Image Available</p>
+                                        {% endif %}
+                                        
+                                        <div class="item-info">
+                                            <h2 class="order-name">{{ item['ptitle'] }}</h2>
+                                            <p class="order-variation">{{ item['variation'] }}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="price_qty">
+                                        <p class="order_prod_price">₱{{ item['price'] }}</p>
+                                        <p class="order-qty">x{{ item['quantity'] }}</p>                                    
+                                        <p class="prod_total">₱{{ item['price'] * item['quantity'] }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="border-line"></div>
+                        </div>                                     
+
+                        <div class="order-infos">
+                            <div class="buyer_info">
+                                <h5 class="ship_to">Ship To</h5>
+                                <input type="hidden" class="buyer_id" value="{{ order['buyer_id'] }}">
+                                <p class="address_name"><span>Buyer Name:</span> {{ order['buyer_name'] }}</p>
+                                <p class="buyer_address"><span>Contact:</span> (+63) {{ order['contact_number'] }}</p>
+                                <p class="shipping_address"><span>Address:</span><br>{{ order['shipping_address'] }}</p>
+                            </div>                                            
+                        
+                            <div class="shipping_dets">
+                                <h5 class="datez">Shipping Details</h5>
+                                <p class="order_date"><span>Purchase Date:</span> {{ order['order_datetime'] }}</p>
+                                <p class="ship_date"><span>Shipment Date:</span> {{ order['order_ship_datetime'] }}</p>
+                                <p class="delivered_date"><span>Delivered:</span> {{ order['order_delivered_datetime'] }}</p>
+                            </div>
+                        
+                            <div class="order_sum">
+                                <h5 class="summary">Order Summary</h5>
+                                <div class="oid">
+                                    <p class="oidz">Order ID: &nbsp; {{ order['order_id'] }}</p>
+                                </div>
+                                <div class="merch_subtotal">
+                                    <p class="merch">Merchandise Subtotal</p>
+                                    <p class="merch_price">₱{{ order['order_total'] - order['shipping_fee'] }}</p>
+                                </div>
+                                <div class="shippingfee">
+                                    <p class="sf">Shipping Subtotal</p>
+                                    <p class="sf_price">₱{{ order['shipping_fee'] }}</p>
+                                </div>
+                                <div class="grandtotal">
+                                    <p class="lahatan">Total Payment</p>
+                                    <p class="lahatan_price">₱{{ order['order_total'] }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-buttons2">
+                            <p class="parcel_loc start"><span>Status:</span> {{ order['parcel_loc'] }}</p>
+                            {% if order['status'] == 'To Approve' %}
+                                <form id="cancel-form-{{ order['order_id'] }}">
+                                    <input type="hidden" name="order_id" value="{{ order['order_id'] }}">
+                                    <button type="button" class="cancel_btn" onclick="showCancelModal(this)">Cancel</button>
+                                </form>
+                            {% elif order['status'] == 'To Receive' %}
+                                <form action="{{ url_for('order_received', order_id=order['order_id'], user_id=user_id) }}" method="POST" onsubmit="return confirmReceived();">
+                                    <input type="hidden" name="order_id" value="{{ order['order_id'] }}">
+                                    <button type="submit" class="rec_btn" {% if order['parcel_loc'] != 'Parcel has been delivered.' %}disabled{% endif %}>Order Received</button>
+                                </form>
+                            {% elif order['status'] == 'To Rate' %}
+                                <form id="rate-form-{{ order['order_id'] }}">
+                                    <input type="hidden" name="order_id" value="{{ order['order_id'] }}">
+                                    <button type="button" class="rate" id="rate" onclick="showRateModal()">Rate</button>
+                                </form>
+                            {% elif order['status'] == 'Completed' %}
+                                <div class="ratezz">
+                                    <input type="hidden" name="order_id" value="{{ order['order_id'] }}">
+                                    <i class='bx bxs-star'></i>
+                                    <p class="ratinglol">
+                                        {% if order['feedback_rating'] %}
+                                            {{ order['feedback_rating'] }}/5
+                                        {% else %}
+                                            No rating yet
+                                        {% endif %}
+                                    </p>
+                                    <button type="button" class="view_r8">View Rating</button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p class="empty_orders" style="margin-top:100px; text-align:center; font-family:Roboto;">No Orders Yet</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div class="cancelModal" id="cancelModal" style="display: none;">
+        <div class="canmodcont">
+            <span class="closecanmod" onclick="hideCancelModal()">&times;</span>
+            <p class="canwhat">Order ID: <span id="cancelOrderId"></span></p>
+            <p class="rizzz">Reason for Cancellation:</p>
+            <select name="canreason" id="canreason" class="canreason" required>
+                <option value="" disabled selected>Select a reason</option>
+                <option value="Change of Mind">Change of Mind</option>
+                <option value="Order Mistake">Order Mistake</option>
+                <option value="Shipping Delay">Shipping Delay</option>
+                <option value="Incorrect Order Details">Incorrect Order Details</option>
+                <option value="Duplicate Order">Duplicate Order</option>
+            </select>
+            <button type="button" class="canbutton" onclick="confirmCancel()">Confirm</button>
+        </div>
+    </div>
+
+    <div id="rateModal" class="modal">
+        <div class="ratecontent">
+            <span class="close" onclick="closeRateModal()">&times;</span>
+            <h5>Rate Order</h5>
+            <form id="rateForm">
+                <input type="hidden" name="order_id" id="rateOrderId">
+                <label for="rating">Rating:</label>
+                <select name="rating" id="rating" required>
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Good</option>
+                    <option value="3">3 - Average</option>
+                    <option value="2">2 - Poor</option>
+                    <option value="1">1 - Terrible</option>
+                </select>
+                <textarea name="review" id="review" rows="4" placeholder="Write a review..." required></textarea>
+                <button type="submit" class="submit-rate">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="ratingModal" class="rmodal">
+        <div class="modal-content">
+            <h5>Order Rating</h5>
+            <button class="modal-close">&times;</button>
+            <p><strong>Rating:</strong> <span id="ratingValue"></span>/5<i class='bx bxs-star'></i></p>
+            <p><strong>Review:</strong><br><span id="reviewText"></span></p>
+        </div>
+    </div>
+
+    <section class="contacts">
+        <div class="contact-info">
+            <div class="first-info">
+                <img src="{{ url_for('static', filename='css/images/LOGO.png') }}" alt="">
+                <p>2023 by Kidmart. <br> A Kidmart Enterprise, Company </p>
+            </div>
+            <div class="second-info">
+                <h4>"Everything Kids Want, Everything Parents Need."</h4>
+                <p>At KidMart, we understand that raising kids is a 24/7 job, and we're here to support you every step of the way. From the first moments of infancy through the teenage years, we provide a  carefully selected range of products that cater to your child’s needs and your parenting goals.</p>
+            </div>
+            <div class="third-info">    
+                <h2>Contact Us</h2>
+                <p>Phone: 0900 000 0000</p>
+                <p>Email: info@KidMart.com</p>
+                <p>Kidmart <br> PO Box 1232 <br> Manila, PH. 1002</p>
+            </div>
+            <div class="fourth-info">
+                <h2>Follow Us On</h2>
+                <div class="social-icon">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-instagram' ></i></a>
+                    <a href="#"><i class='bx bxl-twitter' ></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="end-text">
+        <p>© Copyright 2024. KidMart Enterprise Co. All Rights reserved.</p>
+    </div>
+
+    <script>
+        function getUserId() {
+            const UserIdElement = document.querySelector('p[name="user_id"]');
+            return UserIdElement ? UserIdElement.innerText : null;
+        }
+
+        let user_id = getUserId();
+
+
+        function showCancelModal(button) {
+            const form = button.closest('form');
+            const orderId = form.querySelector('input[name="order_id"]').value;
+
+            const cancelModal = document.getElementById('cancelModal');
+            const cancelOrderId = document.getElementById('cancelOrderId');
+            cancelOrderId.textContent = orderId;
+            cancelModal.dataset.orderId = orderId;
+            cancelModal.style.display = 'block';
+        }
+
+        function hideCancelModal() {
+            const cancelModal = document.getElementById('cancelModal');
+            cancelModal.style.display = 'none';
+        }
+
+        function confirmCancel() {
+            const cancelModal = document.getElementById('cancelModal');
+            const orderId = cancelModal.dataset.orderId;
+            const reason = document.getElementById('canreason').value;
+
+            if (!reason) {
+                alert('Please select a reason for cancellation.');
+                return;
+            }
+
+            fetch(`/bcancel-order/${orderId}/${user_id}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reason })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    hideCancelModal();
+                    alert(data.message);
+                    loadOrders();
+                } else {
+                    alert('Failed to cancel the order. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while canceling the order.');
+            });
+        }
+
+
+        function confirmReceived(event) {
+            if (!confirm("Are you sure you have received this order?")) {
+                return false;
+            }
+
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                    loadOrders('To Receive');
+                } else {
+                    alert('Failed to mark the order as received. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error in confirmReceived:', error);
+                alert('An error occurred while updating the order.');
+            });
+
+            return false;
+        }
+
+        function loadOrders(status) {
+            fetch(`/view-my-orders/${user_id}/filter`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.orders) {
+                    const orderCardsContainer = document.querySelector('.order-cards-container');
+                    
+                    data.orders.forEach(order => {
+                        let orderCard = document.querySelector(`.order-card[data-order-id="${order.order_id}"]`);
+                        
+                        if (!orderCard) {
+                            orderCard = document.createElement('div');
+                            orderCard.classList.add('order-card');
+                            orderCard.setAttribute('data-order-id', order.order_id);
+                            orderCardsContainer.appendChild(orderCard);
+                        }
+
+                        orderCard.innerHTML = `
+                            <div class="labelzzss">
+                                <p class="prodets">Product Details</p>
+                                <p class="unit_lbl">Unit Price</p>
+                                <p class="qty_lbl">Quantity</p>
+                                <p class="total_lbl">Total</p>
+                            </div>
+                            <div class="order-details">
+                                ${order.items.map(item => `
+                                    <div class="order-item">
+                                        <div class="item-container">
+                                            ${item.pimage ? `<img src="data:image/jpeg;base64,${item.pimage}" alt="${item.ptitle}" class="order-image">` : '<p>No Image Available</p>'}
+                                            <div class="item-info">
+                                                <h2 class="order-name">${item.ptitle}</h2>
+                                                <p class="order-variation">${item.variation}</p>
+                                            </div>
+                                        </div>
+                                        <div class="price_qty">
+                                            <p class="order_prod_price">₱${item.price}</p>
+                                            <p class="order-qty">x${item.quantity}</p>
+                                            <p class="prod_total">₱${item.price * item.quantity}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                                <div class="border-line"></div>
+                            </div>
+
+                            <div class="order-infos">
+                                <div class="buyer_info">
+                                    <h5 class="ship_to">Ship To</h5>
+                                    <input type="hidden" class="buyer_id" value="${order.buyer_id}">
+                                    <p class="address_name"><span>Buyer Name:</span> ${order.buyer_name}</p>
+                                    <p class="buyer_address"><span>Contact:</span> (+63) ${order.contact_number}</p>
+                                    <p class="shipping_address"><span>Address:</span><br>${order.shipping_address}</p>
+                                </div>
+
+                                <div class="shipping_dets">
+                                    <h5 class="datez">Shipping Details</h5>
+                                    <p class="order_date"><span>Purchase Date:</span> ${order.order_datetime || 'N/A'}</p>
+                                    <p class="ship_date"><span>Shipment Date:</span> ${order.order_ship_datetime || 'N/A'}</p>
+                                    <p class="delivered_date"><span>Delivered:</span> ${order.order_delivered_datetime || 'N/A'}</p>
+                                </div>
+
+                                <div class="order_sum">
+                                    <h5 class="summary">Order Summary</h5>
+                                    <div class="oid">
+                                        <p class="oidz">Order ID: &nbsp; ${order.order_id}</p>
+                                    </div>
+                                    <div class="merch_subtotal">
+                                        <p class="merch">Merchandise Subtotal</p>
+                                        <p class="merch_price">₱${order.order_total - order.shipping_fee}</p>
+                                    </div>
+                                    <div class="shippingfee">
+                                        <p class="sf">Shipping Subtotal</p>
+                                        <p class="sf_price">₱${order.shipping_fee}</p>
+                                    </div>
+                                    <div class="grandtotal">
+                                        <p class="lahatan">Total Payment</p>
+                                        <p class="lahatan_price">₱${order.order_total}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="action-buttons2">
+                                <p class="parcel_loc start"><span>Status:</span> ${order.parcel_loc}</p>
+
+                                ${order.status === 'To Approve' ? `
+                                    <form id="cancel-form-${order.order_id}">
+                                        <input type="hidden" name="order_id" value="${order.order_id}">
+                                        <button type="button" class="cancel_btn" onclick="showCancelModal(this)">Cancel</button>
+                                    </form>
+                                ` : ''}
+
+                                ${order.status === 'To Receive' ? `
+                                    <form action="/order-received/${order.order_id}/${user_id}" method="POST" onsubmit="return confirmReceived(event);">
+                                        <input type="hidden" name="order_id" value="${order.order_id}">
+                                        <button type="submit" class="rec_btn" ${order.parcel_loc !== 'Parcel has been delivered.' ? 'disabled' : ''}>
+                                            Order Received
+                                        </button>
+                                    </form>
+                                ` : ''}
+
+                                ${order.status === 'To Rate' ? `
+                                    <form id="rate-form-${order.order_id}">
+                                        <input type="hidden" name="order_id" value="${order.order_id}">
+                                        <button type="button" class="rate" id="rate" onclick="showRateModal(${order.order_id})">Rate</button>
+                                    </form>
+                                ` : ''}
+
+                                ${order.status === 'Completed' ? `
+                                    <div class="ratezz">
+                                        <input type="hidden" name="order_id" value="${order.order_id}">
+                                        <i class='bx bxs-star'></i>
+                                        <p class="ratinglol">
+                                            ${order.feedback_rating != null ? `${order.feedback_rating}/5` : 'No rating yet'}
+                                        </p>
+                                        ${order.feedback_rating != null ? `<button type="button" class="view_r8">View Rating</button>` : ''}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    });
+                } else {
+                    alert('Failed to load orders. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error loading orders:', error);
+                alert('An error occurred while loading the orders.');
+            });
+        }
+
+        function showRateModal(orderId) {
+            document.getElementById('rateOrderId').value = orderId;
+            document.getElementById('rateModal').style.display = 'block';
+        }
+
+        function closeRateModal() {
+            document.getElementById('rateModal').style.display = 'none';
+        }
+
+        document.getElementById("rateForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+
+            fetch('/rate-order', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        closeRateModal();
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    alert("An unexpected error occurred. Please try again.");
+                    console.error("Error:", error);
+                });
+        });
+
+
+        function filterOrders(status) {
+            const userId = "{{ user_id }}";
+            fetch(`/view-my-orders/${userId}/filter`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                updateOrderDisplay(data.orders);
+
+                const cancelButtons = document.querySelectorAll('.cancel_btn');
+                if (status === 'Cancelled') {
+                    cancelButtons.forEach(button => {
+                        button.disabled = true;
+                        button.style.backgroundColor = '#ff1c1c';
+                        button.style.color = '#eee';
+                        button.style.cursor = 'not-allowed';
+                        button.textContent = 'Cancelled';
+                        button.style.padding = '8px 35px';
+                    });
+                } else {
+                    cancelButtons.forEach(button => {
+                        button.disabled = false;
+                        button.style.backgroundColor = '';
+                        button.style.color = '';
+                        button.style.cursor = 'pointer';
+                    });
+                }
+            })
+            .catch(error => console.error('Error fetching order data:', error));
+        }
+
+        function updateOrderDisplay(orders) {
+            const orderContainer = document.querySelector('.maincontent2');
+            const existingOrders = orderContainer.querySelectorAll('.order-card');
+
+            existingOrders.forEach(orderCard => orderCard.remove());
+    
+            const noOrdersMessage = orderContainer.querySelector('.empty_orders');
+            if (noOrdersMessage) {
+                noOrdersMessage.remove(); 
+            }
+
+            if (orders.length === 0) {
+                const message = document.createElement('p');
+                message.classList.add('empty_orders');
+                message.textContent = 'No Orders Yet';
+                orderContainer.appendChild(message);
+                return;
+            }
+
+            orders.forEach(order => {
+                console.log(order.feedback_rating);
+                const orderCard = document.createElement('div');
+                orderCard.classList.add('order-card');
+                
+                orderCard.innerHTML = `
+                    <div class="labelzzss">
+                        <p class="prodets">Product Details</p>
+                        <p class="unit_lbl">Unit Price</p>
+                        <p class="qty_lbl">Quantity</p>
+                        <p class="total_lbl">Total</p>
+                    </div>
+                    <div class="order-details">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <div class="item-container">
+                                    ${item.pimage ? `<img src="data:image/jpeg;base64,${item.pimage}" alt="${item.ptitle}" class="order-image">` : '<p>No Image Available</p>'}
+                                    <div class="item-info">
+                                        <h2 class="order-name">${item.ptitle}</h2>
+                                        <p class="order-variation">${item.variation}</p>
+                                    </div>
+                                </div>
+                                <div class="price_qty">
+                                    <p class="order_prod_price">₱${item.price}</p>
+                                    <p class="order-qty">x${item.quantity}</p>
+                                    <p class="prod_total">₱${item.price * item.quantity}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                        <div class="border-line"></div>
+                    </div>                                     
+
+                    <div class="order-infos">
+                        <div class="buyer_info">
+                            <h5 class="ship_to">Ship To</h5>
+                            <input type="hidden" class="buyer_id" value="${order.buyer_id}">
+                            <p class="address_name"><span>Buyer Name:</span> ${order.buyer_name}</p>
+                            <p class="buyer_address"><span>Contact:</span> (+63) ${order.contact_number}</p>
+                            <p class="shipping_address"><span>Address:</span><br>${order.shipping_address}</p>
+                        </div>                                            
+
+                        <div class="shipping_dets">
+                            <h5 class="datez">Shipping Details</h5>
+                            <p class="order_date"><span>Purchase Date:</span> ${order.order_datetime || 'N/A'}</p>
+                            <p class="ship_date"><span>Shipment Date:</span> ${order.order_ship_datetime || 'N/A'}</p>
+                            <p class="delivered_date"><span>Delivered:</span> ${order.order_delivered_datetime || 'N/A'}</p>
+                        </div>
+
+                        <div class="order_sum">
+                            <h5 class="summary">Order Summary</h5>
+                            <div class="oid">
+                                <p class="oidz">Order ID: &nbsp; ${order.order_id}</p>
+                            </div>
+                            <div class="merch_subtotal">
+                                <p class="merch">Merchandise Subtotal</p>
+                                <p class="merch_price">₱${order.order_total - order.shipping_fee}</p>
+                            </div>
+                            <div class="shippingfee">
+                                <p class="sf">Shipping Subtotal</p>
+                                <p class="sf_price">₱${order.shipping_fee}</p>
+                            </div>
+                            <div class="grandtotal">
+                                <p class="lahatan">Total Payment</p>
+                                <p class="lahatan_price">₱${order.order_total}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons2">
+                        <p class="parcel_loc start"><span>Status:</span> ${order.parcel_loc}</p>
+                        
+                        ${order.status === 'To Approve' ? `
+                            <form id="cancel-form-${order.order_id}">
+                                <input type="hidden" name="order_id" value="${order.order_id}">
+                                <button type="button" class="cancel_btn" onclick="showCancelModal(this)">Cancel</button>
+                            </form>
+                        ` : ''}
+                        
+                        ${order.status === 'To Receive' ? `
+                            <form action="/order-received/${order.order_id}/${user_id}" method="POST" onsubmit="return confirmReceived(event);">
+                                <input type="hidden" name="order_id" value="${order.order_id}">
+                                <button type="submit" class="rec_btn" ${order.parcel_loc !== 'Parcel has been delivered.' ? 'disabled' : ''}>
+                                    Order Received
+                                </button>
+                            </form>
+                        ` : ''}
+
+                        ${order.status === 'To Rate' ? `
+                            <form id="rate-form-${order.order_id}">
+                                <input type="hidden" name="order_id" value="${order.order_id}">
+                                <button type="button" class="rate" id="rate" onclick="showRateModal(${order.order_id})">Rate</button>
+                            </form>
+                        ` : ''}
+
+                        ${order.status === 'Completed' ? `
+                            <div class="ratezz"> 
+                                <input type="hidden" name="order_id" value="${order.order_id}">
+                                <i class='bx bxs-star'></i>
+                                <p class="ratinglol">
+                                    ${order.feedback_rating != null ? `${order.feedback_rating}/5` : 'No rating yet'}
+                                </p>
+                                ${order.feedback_rating != null ? `<button type="button" class="view_r8" onclick="viewRating(${order.order_id})">View Rating</button>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                orderContainer.appendChild(orderCard);
+            });
+        }
+
+
+        function viewRating(order_id) {
+            fetch(`/get-review/${order_id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('ratingValue').innerText = data.review.feedback_rating;
+                        document.getElementById('reviewText').innerText = data.review.feedback_review;
+
+                        document.getElementById('ratingModal').style.display = 'block';
+                    } else {
+                        alert("No review found for this order.");
+                    }
+                })
+                .catch(error => console.error('Error fetching review:', error));
+        }
+
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            document.getElementById('ratingModal').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,882 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+
+body {
+    background: #f2f2f2;
+}
+
+@font-face {
+    font-family: League;
+    src: url(fonts/League/LeagueSpartan-Regular.ttf);
+}
+
+@font-face {
+    font-family: LeagueSemi;
+    src: url(fonts/League/LeagueSpartan-SemiBold.ttf);
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(fonts/Poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: PoppinsItalic;
+    src: url(fonts/Poppins/Poppins-Italic.ttf);
+}
+
+@font-face {
+    font-family: PoppinsMed;
+    src: url(fonts/Poppins/Poppins-Medium.ttf);
+}
+
+@font-face {
+    font-family: PoppinsSemi;
+    src: url(fonts/Poppins/Poppins-SemiBold.ttf);
+}
+
+header{
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+}
+
+.Logo img{
+    max-width: 115px;
+    height: auto;
+}
+
+.header-text {
+    display: flex;
+    position: absolute;
+    font-family: PoppinsItalic;
+    font-size: 27px;
+    color: #2C2C2C;
+    padding-left: 150px;
+}
+
+.navicons {
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+}
+.navicons a {
+    width: auto;
+    height: 26px;
+}
+.msg_icon {
+    margin-top: -4px;
+    margin-right: -4px;
+}
+.msg_icon:hover img {
+    content: url(images/msg_hover.png);
+}
+.notif_icon:hover img {
+    content: url(images/notif_hover.png);
+}
+.person_icon:hover img {
+    content: url(images/person_hover.png);
+}
+
+#profileDetails {
+    background-color: #f9f9f9;
+    font-family: Poppins;
+    font-size: 11px;
+    border: 1px solid #c3c3c3;
+    width: 130px;
+    position: absolute;
+    top: 72px;
+    right: 68px;
+    z-index: 2000;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.logout_btn {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px 0;
+    padding-left: 25px;
+    color: #333;
+    width: 100%;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.logout_btn:hover {
+    background-color: #e0e0e0;
+}
+
+
+section{
+    padding: 5% 10%;
+}
+.stats {
+    padding-bottom: 2%;
+}
+.main-stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.frame1 {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 70px;
+    border-radius: 15px;
+    border: 1px solid #7295ee;
+}
+
+.frame2 {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 70px;
+    border-radius: 15px;
+    border: 1px solid #ff8181;
+}
+
+.frame1 h1 {
+    font-family: LeagueSemi;
+    font-size: 23px;
+    color: #7295ee;
+    letter-spacing: 2px;
+    padding-bottom: 7px;
+}
+.frame2 h1 {
+    font-family: LeagueSemi;
+    font-size: 23px;
+    color: #ff8181;
+    letter-spacing: 2px;
+    padding-bottom: 7px;
+}
+.frame1 p {
+    font-family: League;
+    color: #7295ee;
+    font-size: 14px;
+}
+.frame2 p {
+    font-family: League;
+    color: #ff8181;
+    font-size: 14px;
+}
+
+.salesrep { 
+    margin-bottom: 20px;
+    padding: 2% 10%;
+}
+
+.salesreport {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.sales_radio {
+    display: flex;
+    align-items: center;
+    padding-left: 85px;
+}
+.sales_radio-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.orderslbl, .productslbl {
+    font-family: Poppins;
+    font-size: 14px;
+    color: #333;
+    padding-left: 10px;
+    margin-right: 30px;
+    cursor: pointer;
+    font-weight: 400;
+}
+.filterby, .datef {
+    font-family: PoppinsMed;
+    font-size: 15px;
+    color: #333;
+    margin-right: 20px;
+}
+.filterby {
+    margin-right: 48px;
+}
+
+.filterdate {
+    display: flex;
+    align-items: center;
+    margin-top: 18px;
+    margin-bottom: 28px;
+    padding-left: 85px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.date_inputs {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+.date_from, .date_to {
+    margin-right: 8px;
+    padding: 8px 10px;
+    width: 120px;
+    font-family: Poppins;
+    font-size: 11.5px;
+    color: #333;
+    border: none;
+    border: 1px solid #838383;
+}
+.line {
+    margin: 0 5px;
+    margin-right: 12px;
+    font-size: 26px;
+    color: #555;
+    font-weight: 0;
+}
+.ok_btn {
+    padding: 7px 15px; 
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+    background-color: #333;
+    color: #eee;
+    font-family: PoppinsMed;
+    border-radius: 5px;
+}
+.ok_btn:hover {
+    background-color: #555;
+}
+
+.admperc {
+    margin-left: auto;
+    text-align: right;
+    font-family: PoppinsMed;
+    font-size: 13px;
+    color: #333;
+    padding-right: 30px;
+}
+
+
+.srep {
+    font-family: PoppinsMed;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+    align-self: center;
+}
+.sales_table thead th {
+    font-family: PoppinsMed;
+    background-color: white;
+    color: #333;
+    font-size: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.sales_table {
+    align-self: center;
+    width: 100%;
+    max-height: 380px;
+    overflow-y: auto;
+    border-radius: 8px;
+    scrollbar-color: #a9a9a9 white;
+}
+.sales_table table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+}
+.sales_table th, .sales_table td {
+    padding: 10px 15px;
+    text-align: left;
+    width: auto;
+}
+td {
+    font-family: Poppins;
+    color: #333;
+    font-size: 12px;
+    border-top: 0.4px solid #ddd;
+}
+.admh, .adm {
+    padding-right: 15px;
+    text-align: right;
+}
+
+
+.printlol {
+    padding: 0 2%;
+    width: 100%;
+    display: flex;
+}
+.printsales {
+    margin-left: auto;
+    margin-top: 20px;
+    padding: 8px 65px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+    font-family: PoppinsSemi;
+    font-size: 14px;
+    color: #333;
+    background: transparent;
+    cursor: pointer;
+}
+.printsales:hover {
+    color: #eee;
+    background-color: #333;
+    transition: 0.5s;
+}
+
+@media print {
+    .head {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+    .printlogo {
+        width: 60px;
+        height: auto;
+    }
+    .headtitle {
+        font-family: Arial;
+        font-weight: 500;
+        font-size: 20px;
+    }
+
+    body, .salesrep {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-size: 11px;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: 400;
+    }
+    .datez {
+        margin-bottom: 15px;
+    }
+
+    .salesreport {
+        padding: 20px;
+    }
+
+    .srep {
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .sales_table {
+        width: 100%;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .sales_table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .sales_table th, .sales_table td {
+        font-size: 11px;
+        padding: 6px 8px;
+        text-align: left;
+        border: 1px solid #000;
+    }
+
+    .order_totals {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        width: 100%;
+        padding: 0 5%;
+        margin-top: 20px;
+    }
+
+    .ttl {
+        grid-column: 1 / span 1;
+        font-size: 11px;
+        font-weight: bold;
+        text-align: left;
+        padding-left: 10px;
+    }
+
+    .total_orders {
+        grid-column: 2 / span 1;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .total_price {
+        grid-column: 6 / span 1;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .total_profit {
+        grid-column: 7 / span 1;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .total_com {
+        grid-column: 8 / span 1;
+        font-size: 11px;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .sales_radio,
+    .filterdate,
+    .printsales,
+    .ok_btn {
+        display: none;
+    }
+
+    .print-report {
+        flex: 1;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding: 10px 20px;
+        border-top: 1px solid #000;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+    }
+
+    .footer .left {
+        text-align: left;
+        line-height: 1.5;
+    }
+
+    .footer .left h5 {
+        margin: 0;
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    .footer .left p {
+        margin: 0;
+        font-size: 11px;
+        color: #333;
+    }
+
+    .footer .right {
+        text-align: center;
+    }
+
+    .footer .right p {
+        margin: 0;
+        margin-bottom: 5px;
+        font-size: 11px;
+        font-weight: normal;
+    }
+
+    .footer .right img {
+        width: 100px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+
+.empty_sales {
+    font-family: Poppins;
+    font-size: 14px;
+    text-align: center;
+    color: #656565;
+    padding: 65px 0;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 45px;
+    margin: 0 40px;
+}
+.radio-group label {
+    padding-left: 8px;
+    font-family: Poppins;
+    font-size: 15px;
+    color: #333;
+}
+
+input[type="search"] {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    width: 420px;
+    border: 1px solid #a3a3a3;
+    border-radius: 5px;
+    font-family: Poppins;
+    font-size: 13px;
+    color: #333;
+}
+
+.user-crud {
+    background: #f2f2f2;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.userm {
+    font-family: PoppinsMed;
+    font-size: 26px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    max-height: 380px;
+    overflow-y: auto;
+    border-radius: 8px;
+    scrollbar-color: #a9a9a9 white;
+}
+
+.table-container table {
+    background: white;
+    padding: 10px 15px;
+}
+
+.table-container th, td {
+    margin: 0 15px;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.main-content thead th {
+    font-family: Poppins;
+    background-color: white;
+    color: #333;
+    font-size: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table-container td {
+    font-family: Poppins;
+    color: #2C2C2C;
+    font-size: 12px;
+    border-top: 0.4px solid #ddd;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 7px;
+}
+.action-buttons a {
+    width: 27px;
+    height: 27px;
+    cursor: pointer;
+}
+.action-buttons img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.edit_btn:hover img {
+    content: url(images/edit_hover.png);
+    transition: 0.5s;
+}
+.delete_btn:hover img {
+    content: url(images/delete_hover.png);
+    transition: 0.5s;
+}
+
+.approve_btn:hover img {
+    content: url(images/approve_hover.png);
+}
+.disapprove_btn:hover img, .disapprove_btn2:hover {
+    content: url(images/disapprove_hover.png);
+}
+
+.deleteModal, .disapproveModal, .disapproveModal2 {
+    position: fixed;
+    padding-top: 200px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.delmodcont, .dismodcont, .dismodcont2 {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 40px 65px;
+    border: 1px solid #888;
+    width: 34%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.closedelmod, .closedismod, .closedismod2 {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: #e23e3e;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+}
+.closedelmod:hover, .closedismod:hover, .closedismod2:hover {
+    color: #eb7272;
+}
+.delwho, .diswho, .diswho2 {
+    font-family: PoppinsMed;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+}
+.rizz, .rizzz, .rizzz2 {
+    font-family: Poppins;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 6px;
+}
+.delreason, .disreason, .disreason2 {
+    font-family: Poppins;
+    font-size: 12px;
+    color: #333;
+    padding: 12px 25px;
+    border-radius: 2px;
+    border: 1px solid #ddd;
+    margin-bottom: 17px;
+    width: 100%;
+}
+.disreason option, .disreason2 option {
+    font-family: Poppins;
+    font-size: 12px;
+    color: #333;
+}
+.delbutton, .disbutton, .disbutton2 {
+    border: none;
+    font-family: PoppinsMed;
+    font-size: 14px;
+    color: #eee;
+    padding: 8px;
+    width: 100%;
+    cursor: pointer;
+    background-color: #363636;
+    border-radius: 5px;
+}
+.delbutton:hover, .disbutton:hover, .disbutton2:hover {
+    background-color: #575757;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    padding-top: 110px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe !important;
+    margin: auto !important;
+    padding: 40px 75px !important;
+    border: 1px solid #888 !important;
+    width: 35% !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: #e23e3e;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover {
+    color: #eb7272;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    font-family: PoppinsMed;
+    color: #333;
+    font-weight: 500;
+    font-size: 20px;
+}
+.pfp {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+    border-radius: 5px;
+    margin: 20px;
+}
+.modal-content p {
+    font-family: Poppins;
+    font-size: 14px;
+    padding-bottom: 15px;
+    padding-left: 7px;
+    color: #333;
+}
+.view {
+    font-family: PoppinsMed;
+    font-size: 14px;
+    padding-bottom: 15px;
+    padding-left: 7px;
+    padding-right: 30px;
+    color: #333;
+}
+
+
+.modal2 {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content2 {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.close2 {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: red;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.seller-auth {
+    margin-top: 20px;
+    background: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.seller-auth_content {
+    text-align: center;
+}
+
+input[type="search"] {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    width: 420px;
+    border: 1px solid #a3a3a3;
+    border-radius: 5px;
+    font-family: Poppins;
+    font-size: 14px;
+    color: #2C2C2C;
+}
+
+.seller-auth_content h1 {
+    font-family: PoppinsMed;
+    font-weight: 500;
+    font-size: 25px;
+    color: #2C2C2C;
+}
+
+.seller-auth_content .table-container {
+    max-height: 380px;
+    overflow-y: auto;
+    border-radius: 8px;
+    scrollbar-color: #a9a9a9 white;
+}
+.seller-auth_content thead th {
+    font-family: Poppins;
+    background-color: white;
+    color: #2C2C2C;
+    font-size: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.seller-auth_content th, td {
+    padding: 10px 20px;
+}
+
+.seller-auth_content td {
+    font-family: Poppins;
+    color: #2C2C2C;
+    font-size: 11px;
+    border-top: 0.4px solid #ddd;
+}
+
+.empty_sellers, .empty_couriers {
+    padding: 70px;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    color: #555;
+}
